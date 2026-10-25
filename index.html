@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quimera Laboratory — Kinetic Infrastructure & Distributed Media Engines</title>
-  <meta name="description" content="Quimera Laboratory: Engineering next-generation kinetic multiplexers, low-latency streaming architectures, and distributed computing primitives.">
+  <title>Quimera Labs (Quimera Laboratory) — Engenharia de Sistemas & Computação Autônoma</title>
+  <meta name="description" content="Quimera Labs: Autonomous cybernetic systems, differential geometry, mechanical sympathy, and next-generation procedural engines.">
   
   <!-- Fonts: Outfit & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- GSAP for Cinematic Animations -->
+  <!-- GSAP for Cinematic Motion -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
     :root {
       --bg: #030712;
-      --bg-card: rgba(17, 24, 39, 0.55);
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --bg-card-hover: rgba(30, 41, 59, 0.7);
       --border: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(56, 189, 248, 0.4);
+      --border-glow: rgba(56, 189, 248, 0.35);
       --primary: #38bdf8;
       --primary-rgb: 56, 189, 248;
-      --accent: #818cf8;
-      --emerald: #34d399;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
       --text-main: #f9fafb;
       --text-dim: #9ca3af;
-      --text-sub: #6b7280;
+      --text-sub: #64748b;
       --font-display: 'Outfit', -apple-system, sans-serif;
       --font-code: 'JetBrains Mono', monospace;
     }
@@ -43,17 +45,18 @@
       color: var(--text-main);
       font-family: var(--font-display);
       overflow-x: hidden;
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient noise & dynamic lighting */
+    /* Ambient dynamic lighting */
     .noise-bg {
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 65%),
-                        radial-gradient(circle at 90% 40%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 10% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 50%);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.14) 0%, transparent 60%),
+        radial-gradient(circle at 85% 35%, rgba(168, 85, 247, 0.09) 0%, transparent 55%),
+        radial-gradient(circle at 15% 75%, rgba(16, 185, 129, 0.06) 0%, transparent 55%);
       pointer-events: none;
       z-index: 0;
     }
@@ -61,17 +64,16 @@
     .ambient-grid {
       position: fixed;
       inset: 0;
-      background-size: 60px 60px;
+      background-size: 54px 54px;
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
       pointer-events: none;
       z-index: 0;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
     }
 
-    /* Layout Container */
     .wrap {
       width: 100%;
       max-width: 1240px;
@@ -86,7 +88,7 @@
     /* Top Floating Navigation */
     .nav-holder {
       position: fixed;
-      top: 20px;
+      top: 18px;
       left: 0;
       right: 0;
       z-index: 999;
@@ -97,17 +99,17 @@
 
     .nav-bar {
       width: 100%;
-      max-width: 980px;
+      max-width: 1060px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 24px;
-      background: rgba(10, 15, 30, 0.72);
+      padding: 10px 22px;
+      background: rgba(10, 15, 30, 0.78);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 9999px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     .nav-logo {
@@ -122,10 +124,10 @@
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      background: linear-gradient(135deg, #0284c7, #7c3aed);
       display: grid;
       place-items: center;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
     }
 
     .logo-glyph svg {
@@ -137,15 +139,25 @@
     }
 
     .brand-title {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
       letter-spacing: -0.01em;
+    }
+
+    .brand-pill {
+      font-family: var(--font-code);
+      font-size: 0.65rem;
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 8px;
+      border-radius: 999px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 22px;
       list-style: none;
     }
 
@@ -169,7 +181,7 @@
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 9999px;
-      padding: 7px 18px;
+      padding: 6px 16px;
       font-size: 0.8rem;
       font-weight: 600;
       text-decoration: none;
@@ -184,15 +196,12 @@
 
     /* Hero Section */
     .hero {
-      min-height: 100vh;
+      padding-top: 150px;
+      padding-bottom: 70px;
+      text-align: center;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      padding-top: 140px;
-      padding-bottom: 80px;
-      position: relative;
     }
 
     .hero-eyebrow {
@@ -206,44 +215,63 @@
       border: 1px solid rgba(56, 189, 248, 0.25);
       padding: 6px 14px;
       border-radius: 9999px;
-      margin-bottom: 28px;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
     }
 
     .pulse-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald);
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
     }
 
     .hero-h1 {
       width: 100%;
       max-width: 1100px;
-      font-size: clamp(2.8rem, 6.2vw, 5.4rem);
-      font-weight: 800;
+      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+      font-weight: 900;
       letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-bottom: 28px;
-      background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.65) 100%);
+      line-height: 1.08;
+      margin-bottom: 22px;
+      background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-h1 .gradient-text {
-      background: linear-gradient(135deg, #38bdf8 10%, #818cf8 90%);
+      background: linear-gradient(135deg, #38bdf8 10%, #c084fc 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
+    .hero-quote {
+      max-width: 860px;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      padding: 14px 24px;
+      border-left: 3px solid var(--primary);
+      background: rgba(56, 189, 248, 0.04);
+      border-radius: 0 12px 12px 0;
+      text-align: left;
+    }
+
     .hero-p {
-      max-width: 680px;
-      font-size: 1.15rem;
+      max-width: 860px;
+      font-size: 1.05rem;
       color: var(--text-dim);
-      font-weight: 400;
-      line-height: 1.6;
-      margin-bottom: 40px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .hero-p strong {
+      color: #fff;
+      font-weight: 600;
     }
 
     .hero-actions {
@@ -252,6 +280,7 @@
       gap: 16px;
       flex-wrap: wrap;
       justify-content: center;
+      margin-bottom: 50px;
     }
 
     .btn-solid {
@@ -259,7 +288,7 @@
       color: #030712;
       font-weight: 700;
       font-size: 0.95rem;
-      padding: 14px 32px;
+      padding: 13px 30px;
       border-radius: 12px;
       text-decoration: none;
       display: inline-flex;
@@ -275,11 +304,11 @@
     }
 
     .btn-glass {
-      background: rgba(17, 24, 39, 0.7);
+      background: rgba(17, 24, 39, 0.75);
       color: #fff;
       font-weight: 600;
       font-size: 0.95rem;
-      padding: 14px 30px;
+      padding: 13px 28px;
       border-radius: 12px;
       text-decoration: none;
       display: inline-flex;
@@ -291,20 +320,19 @@
     }
 
     .btn-glass:hover {
-      background: rgba(31, 41, 55, 0.85);
+      background: rgba(31, 41, 55, 0.9);
       border-color: rgba(255, 255, 255, 0.25);
       transform: translateY(-2px);
     }
 
-    /* Live Kinetic Canvas Simulator */
+    /* Kinetic Canvas Card */
     .canvas-card {
       width: 100%;
-      margin-top: 50px;
-      border-radius: 20px;
+      border-radius: 18px;
       border: 1px solid var(--border);
       background: #050b18;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.1);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(56, 189, 248, 0.08);
       position: relative;
     }
 
@@ -312,15 +340,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 24px;
-      background: rgba(15, 23, 42, 0.8);
+      padding: 12px 20px;
+      background: rgba(15, 23, 42, 0.85);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .canvas-indicators {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       font-family: var(--font-code);
       font-size: 0.75rem;
     }
@@ -338,49 +366,58 @@
 
     #streamCanvas {
       width: 100%;
-      height: 240px;
+      height: 200px;
       display: block;
       background: #030712;
     }
 
-    /* Gapless Bento Grid */
-    .section-bento {
-      padding: 120px 0;
+    /* Section Headers */
+    .section-head {
+      margin-bottom: 50px;
     }
 
-    .bento-header {
-      margin-bottom: 60px;
+    .section-tag {
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: block;
     }
 
-    .bento-header h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
+    .section-title {
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 16px;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      color: #fff;
     }
 
-    .bento-header p {
+    .section-desc {
       color: var(--text-dim);
-      font-size: 1.1rem;
-      max-width: 600px;
+      font-size: 1.05rem;
+      max-width: 720px;
+      line-height: 1.6;
     }
 
-    .bento-grid {
+    /* Bento Spotlight Grid for Research Pillars */
+    .pillars-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-auto-flow: dense;
-      gap: 20px;
+      gap: 22px;
+      margin-bottom: 110px;
     }
 
-    /* Bento Cards with Mouse Spotlight */
-    .bento-card {
+    .pillar-card {
       position: relative;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 36px;
-      backdrop-filter: blur(12px);
+      padding: 34px;
+      backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -388,13 +425,12 @@
       transition: border-color 0.3s ease, transform 0.3s ease;
     }
 
-    .bento-card:hover {
-      border-color: rgba(56, 189, 248, 0.35);
+    .pillar-card:hover {
+      border-color: var(--border-glow);
       transform: translateY(-3px);
     }
 
-    /* Mouse Spotlight effect */
-    .bento-card::before {
+    .pillar-card::before {
       content: '';
       position: absolute;
       inset: -1px;
@@ -410,191 +446,235 @@
       transition: opacity 0.3s ease;
     }
 
-    .bento-card:hover::before {
+    .pillar-card:hover::before {
       opacity: 1;
     }
 
-    .bento-content {
+    .pillar-content {
       position: relative;
       z-index: 2;
     }
 
-    .bento-col-8 {
-      grid-column: span 8;
-    }
+    .col-7 { grid-column: span 7; }
+    .col-5 { grid-column: span 5; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
 
-    .bento-col-4 {
-      grid-column: span 4;
-    }
-
-    .bento-col-6 {
-      grid-column: span 6;
-    }
-
-    .bento-badge {
+    .pillar-num {
       display: inline-block;
       font-family: var(--font-code);
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--primary);
       background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      padding: 4px 10px;
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      padding: 3px 10px;
       border-radius: 6px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .bento-title {
-      font-size: 1.6rem;
+    .pillar-heading {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      color: #fff;
+    }
+
+    .pillar-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pillar-item {
+      position: relative;
+      padding-left: 20px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .pillar-item::before {
+      content: '▪';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    .pillar-item strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .pillar-tech-badge {
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #38bdf8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Stack Matrix Table */
+    .stack-section {
+      margin-bottom: 110px;
+    }
+
+    .stack-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .stack-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .stack-table th {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 18px 24px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stack-table td {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.95rem;
+      vertical-align: middle;
+    }
+
+    .stack-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .stack-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .layer-name {
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .layer-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 6px var(--primary);
+    }
+
+    .layer-techs {
+      font-family: var(--font-code);
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* Engineering Philosophy */
+    .philosophy-section {
+      margin-bottom: 110px;
+    }
+
+    .philo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .philo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 30px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .philo-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), 0 0 24px rgba(168, 85, 247, 0.12);
+    }
+
+    .philo-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: grid;
+      place-items: center;
+      color: #c084fc;
+      margin-bottom: 22px;
+    }
+
+    .philo-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2;
+    }
+
+    .philo-card h3 {
+      font-size: 1.35rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 12px;
       color: #fff;
     }
 
-    .bento-desc {
+    .philo-card p {
       color: var(--text-dim);
       font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 24px;
+      line-height: 1.65;
     }
 
-    /* Code Preview Widget */
-    .code-box {
-      background: #020617;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 20px;
-      font-family: var(--font-code);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      color: #93c5fd;
-      position: relative;
-      overflow-x: auto;
-    }
-
-    .code-comment { color: #64748b; }
-    .code-keyword { color: #c084fc; font-weight: 600; }
-    .code-fn { color: #38bdf8; }
-    .code-string { color: #34d399; }
-
-    /* Interactive Pipeline Switcher */
-    .pipeline-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 12px;
-    }
-
-    .tab-btn {
-      background: none;
-      border: none;
-      font-family: var(--font-code);
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .tab-btn.active {
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .telemetry-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
-      font-family: var(--font-code);
-      font-size: 0.85rem;
-    }
-
-    .telemetry-row:last-child {
-      border-bottom: none;
-    }
-
-    .telemetry-label {
-      color: var(--text-dim);
-    }
-
-    .telemetry-val {
-      font-weight: 600;
-      color: var(--emerald);
-    }
-
-    /* Architecture Features */
-    .feature-item {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .feature-icon {
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      display: grid;
-      place-items: center;
-      color: var(--primary);
-    }
-
-    .feature-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke-width: 2;
-    }
-
-    .feature-body h4 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: #fff;
-    }
-
-    .feature-body p {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-    }
-
-    /* Massive Action CTA Section */
-    .section-cta {
-      padding: 120px 0 160px;
-      text-align: center;
-      position: relative;
-    }
-
+    /* Final CTA Card */
     .cta-card {
-      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.18) 0%, rgba(15, 23, 42, 0.8) 70%);
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.16) 0%, rgba(15, 23, 42, 0.85) 75%);
       border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 28px;
-      padding: 80px 32px;
-      position: relative;
-      overflow: hidden;
+      border-radius: 26px;
+      padding: 70px 32px;
+      text-align: center;
+      margin-bottom: 100px;
       box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
     }
 
     .cta-h2 {
-      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       color: #fff;
     }
 
     .cta-p {
-      max-width: 580px;
-      margin: 0 auto 36px;
-      font-size: 1.15rem;
+      max-width: 620px;
+      margin: 0 auto 32px;
+      font-size: 1.1rem;
       color: var(--text-dim);
     }
 
@@ -630,13 +710,10 @@
     }
 
     /* Responsive */
-    @media (max-width: 960px) {
-      .bento-col-8, .bento-col-4, .bento-col-6 {
-        grid-column: span 12;
-      }
-      .nav-links {
-        display: none;
-      }
+    @media (max-width: 1024px) {
+      .col-7, .col-5, .col-6 { grid-column: span 12; }
+      .philo-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
@@ -644,217 +721,290 @@
   <div class="noise-bg"></div>
   <div class="ambient-grid"></div>
 
-  <!-- Floating Navigation -->
+  <!-- Top Floating Glass Navigation -->
   <header class="nav-holder">
     <nav class="nav-bar">
       <a href="#" class="nav-logo">
         <div class="logo-glyph">
           <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         </div>
-        <span class="brand-title">Quimera Laboratory</span>
+        <span class="brand-title">Quimera Labs</span>
+        <span class="brand-pill">Research</span>
       </a>
 
       <ul class="nav-links">
-        <li><a href="#architecture">Architecture</a></li>
-        <li><a href="#benchmarks">Telemetry</a></li>
-        <li><a href="#kineplex">kineplex</a></li>
+        <li><a href="#pilares">Linhas de Pesquisa</a></li>
+        <li><a href="#stack">Stack Tecnológico</a></li>
+        <li><a href="#filosofia">Filosofia</a></li>
+        <li><a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener">kineplex</a></li>
       </ul>
 
       <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-nav">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
         </svg>
-        <span>GitHub Org</span>
+        <span>GitHub</span>
       </a>
     </nav>
   </header>
 
   <main class="wrap">
-    <!-- Attention: Hero Section -->
+    <!-- Attention: Hero & Manifesto -->
     <section class="hero">
       <div class="hero-eyebrow">
         <span class="pulse-dot"></span>
-        <span>KINETIC SYSTEMS RESEARCH GROUP</span>
+        <span>LABORATÓRIO DE PESQUISA & ENGENHARIA DE SISTEMAS</span>
       </div>
 
       <h1 class="hero-h1">
-        High-Throughput Kinetic Engines for <span class="gradient-text">Sub-Millisecond Media</span>
+        Quimera Labs <span class="gradient-text">(Quimera Laboratory)</span>
       </h1>
 
+      <div class="hero-quote">
+        &ldquo;Autonomous cybernetic systems, differential geometry, mechanical sympathy, and next-generation procedural engines.&rdquo;
+      </div>
+
       <p class="hero-p">
-        Quimera Laboratory engineers next-generation distributed stream multiplexers, zero-copy packet pipelines, and resilient micro-architectures for mission-critical edge networks.
+        Quimera Labs é um laboratório de engenharia aplicada e pesquisa de ponta voltado à interseção entre <strong>matemática rigorosa</strong>, <strong>engenharia de sistemas de baixo nível</strong> e <strong>computação de altíssimo desempenho</strong>. Concebemos arquiteturas autônomas, transpiladores de alta fidelidade, plataformas de simulação bio-inspiradas e motores de concorrência com foco em determinismo, tolerância a falhas e latência ultrabaixa.
       </p>
 
       <div class="hero-actions">
-        <a href="#kineplex" class="btn-solid">
-          <span>Explore kineplex Engine</span>
+        <a href="#pilares" class="btn-solid">
+          <span>Explorar Linhas de Pesquisa</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-glass">
-          <span>Organization Repositories</span>
+          <span>Repositórios da Organização</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
       </div>
 
-      <!-- Live Stream Visualizer Canvas -->
+      <!-- Live Kinetic Streaming Canvas -->
       <div class="canvas-card">
         <div class="canvas-bar">
           <div class="canvas-indicators">
-            <span class="canvas-stat">Status: <strong>ACTIVE PIPELINE</strong></span>
-            <span class="canvas-stat">Multiplexer: <strong>kineplex-v1.4</strong></span>
-            <span class="canvas-stat">Zero-Copy Ingest: <strong>ENABLED</strong></span>
+            <span class="canvas-stat">Pipeline: <strong>kineplex-multiplexer</strong></span>
+            <span class="canvas-stat">Buffer: <strong>io_uring zero-copy</strong></span>
+            <span class="canvas-stat">SIMD: <strong>AVX2 / AVX-512</strong></span>
           </div>
-          <span style="font-family: var(--font-code); font-size: 0.75rem; color: var(--emerald);">LIVE TELEMETRY</span>
+          <span style="font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-emerald);">ESTADO DETERMINÍSTICO</span>
         </div>
         <canvas id="streamCanvas"></canvas>
       </div>
     </section>
 
-    <!-- Interest: Gapless Bento Grid -->
-    <section id="architecture" class="section-bento">
-      <div class="bento-header">
-        <h2>Engineered for Extreme Concurrency</h2>
-        <p>A mathematically optimized architecture delivering unmatched packet routing and hardware-efficient pipeline execution.</p>
+    <!-- Linhas de Pesquisa e Pilares Tecnológicos -->
+    <section id="pilares">
+      <div class="section-head">
+        <span class="section-tag">🔬 P&D Fundamental</span>
+        <h2 class="section-title">Linhas de Pesquisa e Pilares Tecnológicos</h2>
+        <p class="section-desc">Cinco fronteiras científicas onde o rigor matemático e a simpatia mecânica com o hardware convergem em sistemas de produção.</p>
       </div>
 
-      <div class="bento-grid">
-        <!-- Bento 1: Core Multiplexer (Span 8) -->
-        <article class="bento-card bento-col-8" id="kineplex">
-          <div class="bento-content">
-            <span class="bento-badge">PRIMARY REPOSITORY</span>
-            <h3 class="bento-title">kineplex — Distributed Stream Multiplexer</h3>
-            <p class="bento-desc">
-              Low-latency kinetic stream multiplexer and media pipeline engine. Designed with lock-free ring buffers, SIMD-accelerated serialization, and transparent multi-region failover.
-            </p>
-
-            <div class="code-box">
-              <span class="code-comment">// Quimera Kinetic Stream multiplexing setup</span><br>
-              <span class="code-keyword">const</span> engine = <span class="code-keyword">await</span> <span class="code-fn">KineplexEngine</span>.<span class="code-fn">init</span>({<br>
-              &nbsp;&nbsp;bufferStrategy: <span class="code-string">"zero-copy-ring"</span>,<br>
-              &nbsp;&nbsp;maxPacketJitterMs: <span class="code-string">0.45</span>,<br>
-              &nbsp;&nbsp;concurrencyWorkers: <span class="code-keyword">navigator</span>.hardwareConcurrency || <span class="code-string">16</span><br>
-              });<br>
-              <span class="code-keyword">await</span> engine.<span class="code-fn">attachFanoutRelay</span>(<span class="code-string">"quimera-laboratory.edge"</span>);
-            </div>
+      <div class="pillars-grid">
+        <!-- Pilar 1 -->
+        <article class="pillar-card col-6">
+          <div class="pillar-content">
+            <span class="pillar-num">PILAR 01</span>
+            <h3 class="pillar-heading">Cybernetic Immune Systems & Mutation Testing</h3>
+            <ul class="pillar-list">
+              <li class="pillar-item">
+                <strong>Sistemas Imunes Artificiais:</strong> Plataformas de testes de mutação preditivos e adaptativos voltados a ecossistemas JVM, Python e .NET.
+              </li>
+              <li class="pillar-item">
+                <strong>Telemetria de Kernel:</strong> Observabilidade e coleta assíncrona de eventos via interfaces <span class="pillar-tech-badge">io_uring</span> e <span class="pillar-tech-badge">eBPF</span> para introspecção não intrusiva em runtime.
+              </li>
+            </ul>
           </div>
         </article>
 
-        <!-- Bento 2: Interactive Telemetry Benchmark (Span 4) -->
-        <article class="bento-card bento-col-4" id="benchmarks">
-          <div class="bento-content">
-            <span class="bento-badge">BENCHMARKS</span>
-            <h3 class="bento-title">Performance Specs</h3>
-            <p class="bento-desc">Sub-millisecond packet switching verified across edge nodes.</p>
-
-            <div class="pipeline-tabs">
-              <button class="tab-btn active" data-tab="stream">Stream</button>
-              <button class="tab-btn" data-tab="memory">Memory</button>
-              <button class="tab-btn" data-tab="network">Network</button>
-            </div>
-
-            <div id="telemetryData">
-              <div class="telemetry-row">
-                <span class="telemetry-label">Mean Latency:</span>
-                <span class="telemetry-val">0.38 ms</span>
-              </div>
-              <div class="telemetry-row">
-                <span class="telemetry-label">99th Percentile:</span>
-                <span class="telemetry-val">1.12 ms</span>
-              </div>
-              <div class="telemetry-row">
-                <span class="telemetry-label">Throughput / Node:</span>
-                <span class="telemetry-val">1.42 M pkts/s</span>
-              </div>
-              <div class="telemetry-row">
-                <span class="telemetry-label">Memory Overhead:</span>
-                <span class="telemetry-val">&lt; 14 MB</span>
-              </div>
-            </div>
+        <!-- Pilar 2 -->
+        <article class="pillar-card col-6">
+          <div class="pillar-content">
+            <span class="pillar-num">PILAR 02</span>
+            <h3 class="pillar-heading">Distributed Consensus, Storage & Event Sourcing</h3>
+            <ul class="pillar-list">
+              <li class="pillar-item">
+                <strong>Append-Only Engines (KineQuet / KineSQL):</strong> Motores distribuídos de alto rendimento combinando SQLite via VFS personalizado sobre <span class="pillar-tech-badge">io_uring</span>, serialização vetorizada e aceleração SIMD AVX2.
+              </li>
+              <li class="pillar-item">
+                <strong>Consenso Leaderless & Resiliência:</strong> Replicação de estado distribuída orientada a L-CRDTs (<em>Conflict-free Replicated Data Types</em>) com transporte de fofoca (<em>gossip</em>) via UDP e correção progressiva de pacotes com Reed-Solomon FEC (<em>Forward Error Correction</em>).
+              </li>
+              <li class="pillar-item">
+                <strong>Fundamentação Axiomática Financeira:</strong> Formalização de motores transacionais orientados a Event Sourcing sob invariantes de concorrência estrita e reconciliação determinística de saldos e resíduos sub-centile.
+              </li>
+            </ul>
           </div>
         </article>
 
-        <!-- Bento 3: Edge Primitives (Span 6) -->
-        <article class="bento-card bento-col-6">
-          <div class="bento-content">
-            <span class="bento-badge">INFRASTRUCTURE</span>
-            <h3 class="bento-title">Decentralized Kinetic Relays</h3>
-            <p class="bento-desc">
-              Built to operate autonomously across multi-cloud and edge fabrics without centralized coordination bottlenecks.
-            </p>
-
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-              </div>
-              <div class="feature-body">
-                <h4>Ultra-Low Jitter Scheduling</h4>
-                <p>Deterministic micro-batch scheduler dampens network turbulence under heavy packet congestion.</p>
-              </div>
-            </div>
-
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-              </div>
-              <div class="feature-body">
-                <h4>Zero-Cost Global Edge</h4>
-                <p>Static portals and documentation deployed with automated TLS via Fastly Anycast and GitHub Pages.</p>
-              </div>
-            </div>
+        <!-- Pilar 3 -->
+        <article class="pillar-card col-7">
+          <div class="pillar-content">
+            <span class="pillar-num">PILAR 03</span>
+            <h3 class="pillar-heading">High-Frequency Topological Routing & Protocols</h3>
+            <ul class="pillar-list">
+              <li class="pillar-item">
+                <strong>Synapse Protocol:</strong> Roteamento topológico descentralizado para reconciliação de dados em altíssima frequência, aplicando princípios de <em>Mechanical Sympathy</em>, zero-copy buffers com Apache Arrow IPC e FlatBuffers em Rust puro.
+              </li>
+              <li class="pillar-item">
+                <strong>Topologias Ótimas de Sharding:</strong> Algoritmos de balanceamento e distribuição de mensagens orientados à Matriz de Informação de Fisher, Teoria dos Jogos e Teoria dos Números para particionamento contínuo de brokers distribuídos.
+              </li>
+              <li class="pillar-item">
+                <strong>Transient & Serverless Runtimes (Ephemeral Kinetic Cells):</strong> Ambientes de execução efêmeros isolados com Firecracker microVMs, alocação de memória baseada em arenas (<span class="pillar-tech-badge">bumpalo</span>) e rastreamento intrínseco de linhagem de dados.
+              </li>
+            </ul>
           </div>
         </article>
 
-        <!-- Bento 4: Open Source Research (Span 6) -->
-        <article class="bento-card bento-col-6">
-          <div class="bento-content">
-            <span class="bento-badge">OPEN INITIATIVE</span>
-            <h3 class="bento-title">Open Protocol Specifications</h3>
-            <p class="bento-desc">
-              Quimera Laboratory publishes open specifications for kinetic stream encapsulation, peer-to-peer media synchronization, and hardware-accelerated decode loops.
-            </p>
+        <!-- Pilar 4 -->
+        <article class="pillar-card col-5">
+          <div class="pillar-content">
+            <span class="pillar-num">PILAR 04</span>
+            <h3 class="pillar-heading">Transpilação AOT & Compiladores Especializados</h3>
+            <ul class="pillar-list">
+              <li class="pillar-item">
+                <strong>Mainframe-to-Cloud Migration (COBOL-Flow Transpiler):</strong> Transpilação automatizada de código legado para especificações OpenAPI 3.0 e cenários executáveis de BDD, utilizando técnicas formais de análise de fluxo de dados de Keith Cooper.
+              </li>
+              <li class="pillar-item">
+                <strong>Bare Engines & In-Memory Execution:</strong> Motores SQL AOT acoplados a SQLite em memória para JVM moderna (Java 21+) via Foreign Function & Memory API (Project Panama).
+              </li>
+            </ul>
+          </div>
+        </article>
 
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-              </div>
-              <div class="feature-body">
-                <h4>Automated Verification CI</h4>
-                <p>Formal proof tests and continuous fuzzing validation executed on every pull request.</p>
-              </div>
-            </div>
-
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-              </div>
-              <div class="feature-body">
-                <h4>Community & Contributor Ready</h4>
-                <p>Open source licensing, reproducible builds, and developer-first documentation.</p>
-              </div>
-            </div>
+        <!-- Pilar 5 -->
+        <article class="pillar-card col-12">
+          <div class="pillar-content">
+            <span class="pillar-num">PILAR 05</span>
+            <h3 class="pillar-heading">Procedural Simulation & Visual Computing (Quimera Labs Anatomy)</h3>
+            <ul class="pillar-list">
+              <li class="pillar-item">
+                <strong>Motores Gráficos WebGPU & Wasm:</strong> Ambientes de visualização médica 3D interativa e histopatologia digital de altíssima fidelidade.
+              </li>
+              <li class="pillar-item">
+                <strong>Modelagem Física Procedural:</strong> Simulação biomecânica e histológica em tempo real integrando shaders de alta densidade e pipelines computacionais de paralelismo massivo.
+              </li>
+            </ul>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- Action: Final High-Impact CTA -->
-    <section class="section-cta">
-      <div class="cta-card">
-        <h2 class="cta-h2">Join the Future of Kinetic Engineering</h2>
-        <p class="cta-p">
-          Explore our open source codebases, contribute to core media engines, or deploy your own kinetic relay node.
-        </p>
-        <div class="hero-actions">
-          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-solid">
-            <span>Explore Organization on GitHub</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-            </svg>
-          </a>
-          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener" class="btn-glass">
-            <span>Fork kineplex Repository</span>
-          </a>
+    <!-- Stack Tecnológico -->
+    <section id="stack" class="stack-section">
+      <div class="section-head">
+        <span class="section-tag">🛠️ Engenharia de Plataforma</span>
+        <h2 class="section-title">Stack Tecnológico</h2>
+        <p class="section-desc">Arquitetura de camadas selecionada sem concessões: do metal x86_64 aos runtimes de paralelismo massivo.</p>
+      </div>
+
+      <div class="stack-table-wrap">
+        <table class="stack-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Camada</th>
+              <th>Tecnologias Chave</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                Sistemas & Baixo Nível
+              </td>
+              <td class="layer-techs">Rust, C++20/23, Linux Kernel (io_uring, eBPF), Bare-Metal x86_64 SIMD (AVX2/AVX-512)</td>
+            </tr>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                Runtimes Gerenciados
+              </td>
+              <td class="layer-techs">Java 21+ (Panama FFM, Disruptor), Scala, .NET 8/9, Python Internals</td>
+            </tr>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                Bancos de Dados & Storage
+              </td>
+              <td class="layer-techs">In-Memory SQLite VFS, DuckDB, PostgreSQL / Citus, Apache Parquet</td>
+            </tr>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                IPC & Serialização
+              </td>
+              <td class="layer-techs">Apache Arrow IPC, FlatBuffers, Protocol Buffers, Zero-Copy Shared Memory</td>
+            </tr>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                Gráficos & Simulação
+              </td>
+              <td class="layer-techs">WebGPU, WebAssembly (Wasm), Three.js, Shaders Computacionais GLSL/WGSL</td>
+            </tr>
+            <tr>
+              <td class="layer-name">
+                <span class="layer-dot"></span>
+                Infraestrutura & Isolamento
+              </td>
+              <td class="layer-techs">Firecracker MicroVMs, Docker, LocalStack, Bare-Metal Linux (RHEL)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Filosofia de Engenharia -->
+    <section id="filosofia" class="philosophy-section">
+      <div class="section-head">
+        <span class="section-tag">📐 Princípios Inegociáveis</span>
+        <h2 class="section-title">Filosofia de Engenharia</h2>
+        <p class="section-desc">Três axiomas que direcionam cada linha de código, estrutura de dados e decisão arquitetural no Quimera Labs.</p>
+      </div>
+
+      <div class="philo-grid">
+        <div class="philo-card">
+          <div class="philo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <h3>1. Mechanical Sympathy</h3>
+          <p>O software deve trabalhar a favor do hardware subjacente — alinhamento de cache, branch prediction otimista, alocações amortizadas e zero-copy I/O.</p>
         </div>
+
+        <div class="philo-card">
+          <div class="philo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="13" y2="11"></line></svg>
+          </div>
+          <h3>2. Rigor Matemático</h3>
+          <p>Problemas complexos de consistência, distribuição de carga e otimização são modelados via topologia, geometria diferencial e análise real antes de serem codificados.</p>
+        </div>
+
+        <div class="philo-card">
+          <div class="philo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <h3>3. Imutabilidade e Determinismo</h3>
+          <p>O histórico e a linhagem dos dados são fatos inalteráveis; projeções e estados atuais são meras funções puras do tempo e dos eventos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="cta-card">
+      <h2 class="cta-h2">Engenharia Autônoma de Alta Fidelidade</h2>
+      <p class="cta-p">
+        Explore os repositórios públicos, contribua com nossos transpiladores e motores de concorrência ou acompanhe nossas publicações científicas.
+      </p>
+      <div class="hero-actions" style="margin-bottom: 0;">
+        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-solid">
+          <span>Acessar Quimera Laboratory no GitHub</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+        </a>
+        <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener" class="btn-glass">
+          <span>Repositório kineplex</span>
+        </a>
       </div>
     </section>
   </main>
@@ -863,13 +1013,16 @@
     <div class="wrap">
       <div class="footer-row">
         <div>
-          <span style="font-weight: 700; color: #fff;">Quimera Laboratory</span>
-          <span style="display: block; font-size: 0.8rem; margin-top: 4px;">Pioneering Kinetic Systems & High-Throughput Media Engines.</span>
+          <span style="font-weight: 800; color: #fff;">Quimera Labs (Quimera Laboratory)</span>
+          <span style="display: block; font-size: 0.8rem; margin-top: 4px; color: var(--text-sub);">
+            Autonomous cybernetic systems, differential geometry, mechanical sympathy & next-generation procedural engines.
+          </span>
         </div>
         <div class="footer-links">
+          <a href="#pilares">Pesquisa</a>
+          <a href="#stack">Stack</a>
+          <a href="#filosofia">Filosofia</a>
           <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener">kineplex</a>
-          <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener">Pages Source</a>
         </div>
       </div>
     </div>
@@ -877,8 +1030,8 @@
 
   <!-- Interactive Logic & Kinetic Canvas Engine -->
   <script>
-    // 1. Mouse Spotlight Tracking on Bento Cards (Figma / Linear effect)
-    document.querySelectorAll('.bento-card').forEach(card => {
+    // 1. Mouse Spotlight Tracking on Pillar Cards
+    document.querySelectorAll('.pillar-card').forEach(card => {
       card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -888,52 +1041,14 @@
       });
     });
 
-    // 2. Interactive Telemetry Tab Switcher
-    const telemetryTabs = {
-      stream: [
-        { label: "Mean Latency", val: "0.38 ms" },
-        { label: "99th Percentile", val: "1.12 ms" },
-        { label: "Throughput / Node", val: "1.42 M pkts/s" },
-        { label: "Packet Loss Rate", val: "0.00002 %" }
-      ],
-      memory: [
-        { label: "Buffer Allocation", val: "Zero-Copy Heap" },
-        { label: "Memory Overhead", val: "< 14.2 MB" },
-        { label: "L1/L2 Cache Hit Rate", val: "99.4 %" },
-        { label: "Garbage Collections", val: "0 (Lock-Free)" }
-      ],
-      network: [
-        { label: "Fanout Ratio", val: "1 : 64,000" },
-        { label: "Multiplex Channels", val: "1,024 Active" },
-        { label: "Protocol Transport", val: "QUIC + UDP Fallback" },
-        { label: "Regional Anycast", val: "24 PoPs" }
-      ]
-    };
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const tab = btn.dataset.tab;
-        const data = telemetryTabs[tab];
-        const container = document.getElementById('telemetryData');
-        container.innerHTML = data.map(item => `
-          <div class="telemetry-row">
-            <span class="telemetry-label">${item.label}:</span>
-            <span class="telemetry-val">${item.val}</span>
-          </div>
-        `).join('');
-      });
-    });
-
-    // 3. Kinetic Stream Simulation Canvas (60fps continuous media wave)
+    // 2. Kinetic Stream Simulation Canvas (60fps continuous media wave)
     const canvas = document.getElementById('streamCanvas');
     const ctx = canvas.getContext('2d');
     let width, height;
 
     function resizeCanvas() {
       width = canvas.parentElement.clientWidth;
-      height = 240;
+      height = 200;
       canvas.width = width * window.devicePixelRatio;
       canvas.height = height * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
@@ -942,47 +1057,47 @@
     resizeCanvas();
 
     const particles = [];
-    const particleCount = 45;
+    const particleCount = 42;
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() * 1.5 + 0.8),
+        vx: (Math.random() * 1.6 + 0.8),
         vy: (Math.random() - 0.5) * 0.4,
         size: Math.random() * 2 + 1.5,
-        color: i % 3 === 0 ? '#38bdf8' : (i % 3 === 1 ? '#818cf8' : '#34d399')
+        color: i % 3 === 0 ? '#38bdf8' : (i % 3 === 1 ? '#c084fc' : '#10b981')
       });
     }
 
     let time = 0;
     function render() {
-      time += 0.02;
-      ctx.fillStyle = 'rgba(3, 7, 18, 0.28)';
+      time += 0.022;
+      ctx.fillStyle = 'rgba(3, 7, 18, 0.3)';
       ctx.fillRect(0, 0, width, height);
 
-      // Render harmonic kinetic sine carrier
+      // Primary harmonic wave
       ctx.beginPath();
       ctx.lineWidth = 1.5;
       ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
       for (let x = 0; x < width; x += 4) {
-        const y = height / 2 + Math.sin(x * 0.015 + time) * 35 * Math.sin(time * 0.5);
+        const y = height / 2 + Math.sin(x * 0.015 + time) * 32 * Math.sin(time * 0.5);
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
 
-      // Second harmonic carrier
+      // Secondary harmonic wave
       ctx.beginPath();
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(129, 140, 248, 0.25)';
+      ctx.strokeStyle = 'rgba(192, 132, 252, 0.25)';
       for (let x = 0; x < width; x += 6) {
-        const y = height / 2 + Math.cos(x * 0.012 - time * 0.8) * 25;
+        const y = height / 2 + Math.cos(x * 0.012 - time * 0.8) * 22;
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
 
-      // Render flowing stream packets
+      // Flowing packets
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -1002,13 +1117,14 @@
     }
     render();
 
-    // 4. GSAP Entrance Animations
+    // 3. GSAP Entrance Animations
     if (window.gsap) {
       gsap.from('.hero-eyebrow', { opacity: 0, y: -15, duration: 0.8, ease: 'power3.out' });
       gsap.from('.hero-h1', { opacity: 0, y: 25, duration: 1, delay: 0.1, ease: 'power3.out' });
-      gsap.from('.hero-p', { opacity: 0, y: 20, duration: 1, delay: 0.25, ease: 'power3.out' });
+      gsap.from('.hero-quote', { opacity: 0, y: 20, duration: 1, delay: 0.2, ease: 'power3.out' });
+      gsap.from('.hero-p', { opacity: 0, y: 20, duration: 1, delay: 0.3, ease: 'power3.out' });
       gsap.from('.hero-actions', { opacity: 0, y: 20, duration: 1, delay: 0.4, ease: 'power3.out' });
-      gsap.from('.canvas-card', { opacity: 0, scale: 0.95, y: 30, duration: 1.2, delay: 0.5, ease: 'power3.out' });
+      gsap.from('.canvas-card', { opacity: 0, scale: 0.96, y: 25, duration: 1.1, delay: 0.5, ease: 'power3.out' });
     }
   </script>
 </body>
