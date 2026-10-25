@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quimera Laboratory | Next-Gen Kinetic Systems & Distributed Infrastructure</title>
-  <meta name="description" content="Quimera Laboratory - Engineering high-throughput distributed media engines, kinetic streaming pipelines, and real-time computing systems.">
+  <title>Quimera Laboratory — Kinetic Infrastructure & Distributed Media Engines</title>
+  <meta name="description" content="Quimera Laboratory: Engineering next-generation kinetic multiplexers, low-latency streaming architectures, and distributed computing primitives.">
+  
+  <!-- Fonts: Outfit & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP for Cinematic Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <style>
     :root {
-      --bg: #07090e;
-      --card-bg: rgba(15, 23, 42, 0.65);
-      --card-border: rgba(56, 189, 248, 0.15);
-      --card-border-hover: rgba(56, 189, 248, 0.45);
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.25);
-      --accent-purple: #a855f7;
-      --accent-emerald: #10b981;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg: #030712;
+      --bg-card: rgba(17, 24, 39, 0.55);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(56, 189, 248, 0.4);
+      --primary: #38bdf8;
+      --primary-rgb: 56, 189, 248;
+      --accent: #818cf8;
+      --emerald: #34d399;
+      --text-main: #f9fafb;
+      --text-dim: #9ca3af;
+      --text-sub: #6b7280;
+      --font-display: 'Outfit', -apple-system, sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -32,590 +40,976 @@
 
     body {
       background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      min-height: 100vh;
+      color: var(--text-main);
+      font-family: var(--font-display);
       overflow-x: hidden;
-      line-height: 1.6;
-      background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.18), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 85% 60%, rgba(168, 85, 247, 0.12), transparent 70%),
-        radial-gradient(circle at 15% 75%, rgba(16, 185, 129, 0.08), transparent 60%);
-      background-attachment: fixed;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient animated grid */
-    .grid-overlay {
+    /* Ambient noise & dynamic lighting */
+    .noise-bg {
       position: fixed;
       inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
+      background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 65%),
+                        radial-gradient(circle at 90% 40%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
 
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      background-size: 60px 60px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    /* Layout Container */
+    .wrap {
+      width: 100%;
+      max-width: 1240px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    /* Navigation */
-    header {
-      padding: 24px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7, 9, 14, 0.75);
-    }
-
-    .nav-wrapper {
+    /* Top Floating Navigation */
+    .nav-holder {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 999;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
     }
 
-    .brand {
+    .nav-bar {
+      width: 100%;
+      max-width: 980px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: rgba(10, 15, 30, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-logo {
       display: flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
-      color: var(--text);
+      color: #fff;
     }
 
-    .brand-logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #0284c7, #9333ea);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    .logo-glyph {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
     }
 
-    .brand-logo svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
+    .logo-glyph svg {
+      width: 18px;
+      height: 18px;
       stroke: #fff;
-      stroke-width: 2;
+      stroke-width: 2.2;
+      fill: none;
     }
 
-    .brand-text {
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      font-size: 1.15rem;
-    }
-
-    .brand-tag {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent);
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.25);
+    .brand-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 28px;
+      list-style: none;
     }
 
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
+    .nav-links a {
+      color: var(--text-dim);
+      font-size: 0.85rem;
       font-weight: 500;
+      text-decoration: none;
       transition: color 0.2s ease;
     }
 
-    .nav-link:hover {
-      color: var(--text);
+    .nav-links a:hover {
+      color: #fff;
     }
 
-    .btn-github {
+    .btn-nav {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      transition: all 0.2s ease;
+      border-radius: 9999px;
+      padding: 7px 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .btn-github:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.16);
       border-color: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
     }
 
-    /* Hero */
+    /* Hero Section */
     .hero {
-      padding: 100px 0 70px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      padding-top: 140px;
+      padding-bottom: 80px;
       position: relative;
     }
 
-    .badge {
+    .hero-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       padding: 6px 14px;
       border-radius: 9999px;
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
     }
 
-    .badge-dot {
-      width: 8px;
-      height: 8px;
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--accent-emerald);
-      box-shadow: 0 0 10px var(--accent-emerald);
-      animation: pulse 2s infinite;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-
-    .hero-title {
-      font-size: clamp(2.5rem, 6vw, 4.2rem);
+    .hero-h1 {
+      width: 100%;
+      max-width: 1100px;
+      font-size: clamp(2.8rem, 6.2vw, 5.4rem);
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 24px;
-      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 28px;
+      background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.65) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero-title span {
-      background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
+    .hero-h1 .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 10%, #818cf8 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero-desc {
-      font-size: 1.15rem;
-      color: var(--text-muted);
+    .hero-p {
       max-width: 680px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 40px;
     }
 
-    .hero-cta {
+    .hero-actions {
       display: flex;
-      justify-content: center;
+      align-items: center;
       gap: 16px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #0284c7, #6366f1);
-      color: #fff;
-      padding: 12px 28px;
-      border-radius: 10px;
-      font-weight: 600;
+    .btn-solid {
+      background: #fff;
+      color: #030712;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 12px;
       text-decoration: none;
-      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
     }
 
-    .btn-primary:hover {
-      box-shadow: 0 6px 28px rgba(56, 189, 248, 0.5);
+    .btn-solid:hover {
       transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.35);
     }
 
-    .btn-secondary {
-      background: rgba(15, 23, 42, 0.8);
-      color: var(--text);
-      padding: 12px 28px;
-      border-radius: 10px;
+    .btn-glass {
+      background: rgba(17, 24, 39, 0.7);
+      color: #fff;
       font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 30px;
+      border-radius: 12px;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      transition: all 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Architecture / Stats Strip */
-    .metrics-bar {
-      margin: 50px auto 70px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      padding: 24px;
-      border-radius: 16px;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       backdrop-filter: blur(10px);
     }
 
-    .metric-item {
-      text-align: center;
-      padding: 8px;
+    .btn-glass:hover {
+      background: rgba(31, 41, 55, 0.85);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
     }
 
-    .metric-value {
-      font-family: var(--font-mono);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 4px;
+    /* Live Kinetic Canvas Simulator */
+    .canvas-card {
+      width: 100%;
+      margin-top: 50px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #050b18;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.1);
+      position: relative;
     }
 
-    .metric-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .canvas-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: rgba(15, 23, 42, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    /* Section Styling */
-    .section-header {
-      text-align: center;
-      margin-bottom: 48px;
+    .canvas-indicators {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-code);
+      font-size: 0.75rem;
     }
 
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
+    .canvas-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-dim);
     }
 
-    .section-sub {
-      color: var(--text-muted);
-      font-size: 1rem;
+    .canvas-stat strong {
+      color: var(--primary);
     }
 
-    /* Grid Projects */
-    .projects-grid {
+    #streamCanvas {
+      width: 100%;
+      height: 240px;
+      display: block;
+      background: #030712;
+    }
+
+    /* Gapless Bento Grid */
+    .section-bento {
+      padding: 120px 0;
+    }
+
+    .bento-header {
+      margin-bottom: 60px;
+    }
+
+    .bento-header h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .bento-header p {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+
+    .bento-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      margin-bottom: 80px;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-flow: dense;
+      gap: 20px;
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 32px;
+    /* Bento Cards with Mouse Spotlight */
+    .bento-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
       backdrop-filter: blur(12px);
-      transition: all 0.25s ease;
       display: flex;
       flex-direction: column;
-      position: relative;
+      justify-content: space-between;
       overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease;
     }
 
-    .card::before {
+    .bento-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-3px);
+    }
+
+    /* Mouse Spotlight effect */
+    .bento-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      inset: -1px;
+      background: radial-gradient(
+        500px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(56, 189, 248, 0.15),
+        transparent 40%
+      );
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
-    .card:hover {
-      border-color: var(--card-border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5), 0 0 24px rgba(56, 189, 248, 0.15);
-    }
-
-    .card:hover::before {
+    .bento-card:hover::before {
       opacity: 1;
     }
 
-    .card-tag {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      background: rgba(56, 189, 248, 0.1);
-      padding: 4px 10px;
-      border-radius: 6px;
-      width: fit-content;
-      margin-bottom: 16px;
-      border: 1px solid rgba(56, 189, 248, 0.2);
+    .bento-content {
+      position: relative;
+      z-index: 2;
     }
 
-    .card-title {
-      font-size: 1.35rem;
+    .bento-col-8 {
+      grid-column: span 8;
+    }
+
+    .bento-col-4 {
+      grid-column: span 4;
+    }
+
+    .bento-col-6 {
+      grid-column: span 6;
+    }
+
+    .bento-badge {
+      display: inline-block;
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .bento-title {
+      font-size: 1.6rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
       margin-bottom: 12px;
       color: #fff;
     }
 
-    .card-desc {
-      color: var(--text-muted);
+    .bento-desc {
+      color: var(--text-dim);
       font-size: 0.95rem;
       line-height: 1.6;
       margin-bottom: 24px;
-      flex-grow: 1;
     }
 
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: gap 0.2s ease;
-    }
-
-    .card-link:hover {
-      gap: 10px;
-    }
-
-    /* Terminal Preview Box */
-    .terminal-container {
-      background: #0b0f19;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 90px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .terminal-topbar {
-      background: #111827;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .term-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot-red { background: #ef4444; }
-    .dot-yellow { background: #eab308; }
-    .dot-green { background: #22c55e; }
-
-    .term-title {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-left: 8px;
-    }
-
-    .terminal-body {
-      padding: 24px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      line-height: 1.8;
-      color: #cbd5e1;
+    /* Code Preview Widget */
+    .code-box {
+      background: #020617;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #93c5fd;
+      position: relative;
       overflow-x: auto;
     }
 
-    .term-prompt { color: var(--accent); }
-    .term-comment { color: #64748b; }
-    .term-highlight { color: #f472b6; }
-    .term-ok { color: #4ade80; }
+    .code-comment { color: #64748b; }
+    .code-keyword { color: #c084fc; font-weight: 600; }
+    .code-fn { color: #38bdf8; }
+    .code-string { color: #34d399; }
+
+    /* Interactive Pipeline Switcher */
+    .pipeline-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+    }
+
+    .telemetry-row:last-child {
+      border-bottom: none;
+    }
+
+    .telemetry-label {
+      color: var(--text-dim);
+    }
+
+    .telemetry-val {
+      font-weight: 600;
+      color: var(--emerald);
+    }
+
+    /* Architecture Features */
+    .feature-item {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+    }
+
+    .feature-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    .feature-body h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .feature-body p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Massive Action CTA Section */
+    .section-cta {
+      padding: 120px 0 160px;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-card {
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.18) 0%, rgba(15, 23, 42, 0.8) 70%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 28px;
+      padding: 80px 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+    }
+
+    .cta-h2 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .cta-p {
+      max-width: 580px;
+      margin: 0 auto 36px;
+      font-size: 1.15rem;
+      color: var(--text-dim);
+    }
 
     /* Footer */
     footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 40px 0;
-      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding: 50px 0;
+      color: var(--text-sub);
       font-size: 0.85rem;
-      text-align: center;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .footer-links {
       display: flex;
-      justify-content: center;
       gap: 24px;
-      margin-bottom: 16px;
     }
 
     .footer-links a {
-      color: var(--text-muted);
+      color: var(--text-dim);
       text-decoration: none;
-      transition: color 0.2s;
+      transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
-      color: var(--accent);
+      color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .bento-col-8, .bento-col-4, .bento-col-6 {
+        grid-column: span 12;
+      }
+      .nav-links {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="grid-overlay"></div>
+  <div class="noise-bg"></div>
+  <div class="ambient-grid"></div>
 
-  <header>
-    <div class="container">
-      <div class="nav-wrapper">
-        <a href="#" class="brand">
-          <div class="brand-logo">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-          </div>
-          <div>
-            <span class="brand-text">Quimera Laboratory</span>
-          </div>
-          <span class="brand-tag">v1.0</span>
+  <!-- Floating Navigation -->
+  <header class="nav-holder">
+    <nav class="nav-bar">
+      <a href="#" class="nav-logo">
+        <div class="logo-glyph">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        </div>
+        <span class="brand-title">Quimera Laboratory</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#benchmarks">Telemetry</a></li>
+        <li><a href="#kineplex">kineplex</a></li>
+      </ul>
+
+      <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-nav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        <span>GitHub Org</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- Attention: Hero Section -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot"></span>
+        <span>KINETIC SYSTEMS RESEARCH GROUP</span>
+      </div>
+
+      <h1 class="hero-h1">
+        High-Throughput Kinetic Engines for <span class="gradient-text">Sub-Millisecond Media</span>
+      </h1>
+
+      <p class="hero-p">
+        Quimera Laboratory engineers next-generation distributed stream multiplexers, zero-copy packet pipelines, and resilient micro-architectures for mission-critical edge networks.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#kineplex" class="btn-solid">
+          <span>Explore kineplex Engine</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
+        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-glass">
+          <span>Organization Repositories</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
 
-        <div class="nav-links">
-          <a href="#initiatives" class="nav-link">Research</a>
-          <a href="#projects" class="nav-link">Projects</a>
-          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-github">
+      <!-- Live Stream Visualizer Canvas -->
+      <div class="canvas-card">
+        <div class="canvas-bar">
+          <div class="canvas-indicators">
+            <span class="canvas-stat">Status: <strong>ACTIVE PIPELINE</strong></span>
+            <span class="canvas-stat">Multiplexer: <strong>kineplex-v1.4</strong></span>
+            <span class="canvas-stat">Zero-Copy Ingest: <strong>ENABLED</strong></span>
+          </div>
+          <span style="font-family: var(--font-code); font-size: 0.75rem; color: var(--emerald);">LIVE TELEMETRY</span>
+        </div>
+        <canvas id="streamCanvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Interest: Gapless Bento Grid -->
+    <section id="architecture" class="section-bento">
+      <div class="bento-header">
+        <h2>Engineered for Extreme Concurrency</h2>
+        <p>A mathematically optimized architecture delivering unmatched packet routing and hardware-efficient pipeline execution.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Bento 1: Core Multiplexer (Span 8) -->
+        <article class="bento-card bento-col-8" id="kineplex">
+          <div class="bento-content">
+            <span class="bento-badge">PRIMARY REPOSITORY</span>
+            <h3 class="bento-title">kineplex — Distributed Stream Multiplexer</h3>
+            <p class="bento-desc">
+              Low-latency kinetic stream multiplexer and media pipeline engine. Designed with lock-free ring buffers, SIMD-accelerated serialization, and transparent multi-region failover.
+            </p>
+
+            <div class="code-box">
+              <span class="code-comment">// Quimera Kinetic Stream multiplexing setup</span><br>
+              <span class="code-keyword">const</span> engine = <span class="code-keyword">await</span> <span class="code-fn">KineplexEngine</span>.<span class="code-fn">init</span>({<br>
+              &nbsp;&nbsp;bufferStrategy: <span class="code-string">"zero-copy-ring"</span>,<br>
+              &nbsp;&nbsp;maxPacketJitterMs: <span class="code-string">0.45</span>,<br>
+              &nbsp;&nbsp;concurrencyWorkers: <span class="code-keyword">navigator</span>.hardwareConcurrency || <span class="code-string">16</span><br>
+              });<br>
+              <span class="code-keyword">await</span> engine.<span class="code-fn">attachFanoutRelay</span>(<span class="code-string">"quimera-laboratory.edge"</span>);
+            </div>
+          </div>
+        </article>
+
+        <!-- Bento 2: Interactive Telemetry Benchmark (Span 4) -->
+        <article class="bento-card bento-col-4" id="benchmarks">
+          <div class="bento-content">
+            <span class="bento-badge">BENCHMARKS</span>
+            <h3 class="bento-title">Performance Specs</h3>
+            <p class="bento-desc">Sub-millisecond packet switching verified across edge nodes.</p>
+
+            <div class="pipeline-tabs">
+              <button class="tab-btn active" data-tab="stream">Stream</button>
+              <button class="tab-btn" data-tab="memory">Memory</button>
+              <button class="tab-btn" data-tab="network">Network</button>
+            </div>
+
+            <div id="telemetryData">
+              <div class="telemetry-row">
+                <span class="telemetry-label">Mean Latency:</span>
+                <span class="telemetry-val">0.38 ms</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">99th Percentile:</span>
+                <span class="telemetry-val">1.12 ms</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Throughput / Node:</span>
+                <span class="telemetry-val">1.42 M pkts/s</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Memory Overhead:</span>
+                <span class="telemetry-val">&lt; 14 MB</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Bento 3: Edge Primitives (Span 6) -->
+        <article class="bento-card bento-col-6">
+          <div class="bento-content">
+            <span class="bento-badge">INFRASTRUCTURE</span>
+            <h3 class="bento-title">Decentralized Kinetic Relays</h3>
+            <p class="bento-desc">
+              Built to operate autonomously across multi-cloud and edge fabrics without centralized coordination bottlenecks.
+            </p>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+              </div>
+              <div class="feature-body">
+                <h4>Ultra-Low Jitter Scheduling</h4>
+                <p>Deterministic micro-batch scheduler dampens network turbulence under heavy packet congestion.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+              </div>
+              <div class="feature-body">
+                <h4>Zero-Cost Global Edge</h4>
+                <p>Static portals and documentation deployed with automated TLS via Fastly Anycast and GitHub Pages.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Bento 4: Open Source Research (Span 6) -->
+        <article class="bento-card bento-col-6">
+          <div class="bento-content">
+            <span class="bento-badge">OPEN INITIATIVE</span>
+            <h3 class="bento-title">Open Protocol Specifications</h3>
+            <p class="bento-desc">
+              Quimera Laboratory publishes open specifications for kinetic stream encapsulation, peer-to-peer media synchronization, and hardware-accelerated decode loops.
+            </p>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              </div>
+              <div class="feature-body">
+                <h4>Automated Verification CI</h4>
+                <p>Formal proof tests and continuous fuzzing validation executed on every pull request.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+              </div>
+              <div class="feature-body">
+                <h4>Community & Contributor Ready</h4>
+                <p>Open source licensing, reproducible builds, and developer-first documentation.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Action: Final High-Impact CTA -->
+    <section class="section-cta">
+      <div class="cta-card">
+        <h2 class="cta-h2">Join the Future of Kinetic Engineering</h2>
+        <p class="cta-p">
+          Explore our open source codebases, contribute to core media engines, or deploy your own kinetic relay node.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-solid">
+            <span>Explore Organization on GitHub</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
             </svg>
-            GitHub
           </a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        <span>ENGINEERING RESEARCH & SYSTEMS LAB</span>
-      </div>
-      <h1 class="hero-title">
-        Architecting the Next Wave of<br>
-        <span>Kinetic Infrastructure</span>
-      </h1>
-      <p class="hero-desc">
-        Quimera Laboratory pioneers high-throughput distributed media engines, ultra-low latency streaming pipelines, and resilient micro-architecture for the decentralized web.
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn-primary">Explore Technologies</a>
-        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-secondary">Explore GitHub Org &rarr;</a>
-      </div>
-
-      <div class="metrics-bar">
-        <div class="metric-item">
-          <div class="metric-value">&lt; 1.8ms</div>
-          <div class="metric-label">Target Latency</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-value">100%</div>
-          <div class="metric-label">Automated CI/CD</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-value">Zero-Cost</div>
-          <div class="metric-label">SSL & Static Edge</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-value">Multi-Core</div>
-          <div class="metric-label">Parallel Pipelines</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="section-header">
-        <h2 class="section-title">Open Repositories & Systems</h2>
-        <p class="section-sub">Production-grade engines and open-source infrastructure developed by Quimera.</p>
-      </div>
-
-      <div class="projects-grid">
-        <div class="card">
-          <span class="card-tag">CORE ENGINE</span>
-          <h3 class="card-title">kineplex</h3>
-          <p class="card-desc">
-            Low-Latency Kinetic Stream Multiplexer & Distributed Media Pipeline Engine. Designed for heavy throughput, packet scheduling, and resilient edge delivery.
-          </p>
-          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener" class="card-link">
-            Inspect Source Code &rarr;
-          </a>
-        </div>
-
-        <div class="card">
-          <span class="card-tag">PORTAL & STATIC EDGE</span>
-          <h3 class="card-title">quimera-laboratory.github.io</h3>
-          <p class="card-desc">
-            The central GitHub Pages hub for Quimera Laboratory. Instantaneous deployment, zero-cost automated SSL/TLS, and custom domain orchestration via GitHub Actions.
-          </p>
-          <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener" class="card-link">
-            Repository Details &rarr;
-          </a>
-        </div>
-
-        <div class="card">
-          <span class="card-tag">PROTOCOL RESEARCH</span>
-          <h3 class="card-title">Kinetic Stream Protocols</h3>
-          <p class="card-desc">
-            Specifications and benchmarks for sub-millisecond adaptive streaming, multiplexing protocols, and decentralized consensus primitives.
-          </p>
-          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="card-link">
-            Organization Hub &rarr;
+          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener" class="btn-glass">
+            <span>Fork kineplex Repository</span>
           </a>
         </div>
       </div>
     </section>
-
-    <!-- Terminal Spec Sheet -->
-    <div class="terminal-container">
-      <div class="terminal-topbar">
-        <div class="term-dot dot-red"></div>
-        <div class="term-dot dot-yellow"></div>
-        <div class="term-dot dot-green"></div>
-        <span class="term-title">quimera-edge :: diagnostics</span>
-      </div>
-      <div class="terminal-body">
-        <p><span class="term-prompt">$</span> quimera-status --endpoint pages.quimera-laboratory.github.io</p>
-        <p class="term-ok">✓ Gateway: Active [GitHub Pages CDN / Fastly Global Anycast]</p>
-        <p class="term-ok">✓ TLS/SSL Certificate: Auto-Provisioned (Let's Encrypt / DigiCert)</p>
-        <p class="term-ok">✓ CI/CD Pipeline: GitHub Actions Automation Active</p>
-        <p><span class="term-prompt">$</span> echo "Quimera Laboratory: Redefining kinetic streaming standards."</p>
-        <p class="term-highlight">Quimera Laboratory: Redefining kinetic streaming standards.</p>
-      </div>
-    </div>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-links">
-        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener">GitHub Organization</a>
-        <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener">Portal Source</a>
-        <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener">kineplex Engine</a>
+    <div class="wrap">
+      <div class="footer-row">
+        <div>
+          <span style="font-weight: 700; color: #fff;">Quimera Laboratory</span>
+          <span style="display: block; font-size: 0.8rem; margin-top: 4px;">Pioneering Kinetic Systems & High-Throughput Media Engines.</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener">kineplex</a>
+          <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener">Pages Source</a>
+        </div>
       </div>
-      <p>&copy; 2026 Quimera Laboratory. Built for distributed performance and open-source innovation.</p>
     </div>
   </footer>
+
+  <!-- Interactive Logic & Kinetic Canvas Engine -->
+  <script>
+    // 1. Mouse Spotlight Tracking on Bento Cards (Figma / Linear effect)
+    document.querySelectorAll('.bento-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // 2. Interactive Telemetry Tab Switcher
+    const telemetryTabs = {
+      stream: [
+        { label: "Mean Latency", val: "0.38 ms" },
+        { label: "99th Percentile", val: "1.12 ms" },
+        { label: "Throughput / Node", val: "1.42 M pkts/s" },
+        { label: "Packet Loss Rate", val: "0.00002 %" }
+      ],
+      memory: [
+        { label: "Buffer Allocation", val: "Zero-Copy Heap" },
+        { label: "Memory Overhead", val: "< 14.2 MB" },
+        { label: "L1/L2 Cache Hit Rate", val: "99.4 %" },
+        { label: "Garbage Collections", val: "0 (Lock-Free)" }
+      ],
+      network: [
+        { label: "Fanout Ratio", val: "1 : 64,000" },
+        { label: "Multiplex Channels", val: "1,024 Active" },
+        { label: "Protocol Transport", val: "QUIC + UDP Fallback" },
+        { label: "Regional Anycast", val: "24 PoPs" }
+      ]
+    };
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        const data = telemetryTabs[tab];
+        const container = document.getElementById('telemetryData');
+        container.innerHTML = data.map(item => `
+          <div class="telemetry-row">
+            <span class="telemetry-label">${item.label}:</span>
+            <span class="telemetry-val">${item.val}</span>
+          </div>
+        `).join('');
+      });
+    });
+
+    // 3. Kinetic Stream Simulation Canvas (60fps continuous media wave)
+    const canvas = document.getElementById('streamCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resizeCanvas() {
+      width = canvas.parentElement.clientWidth;
+      height = 240;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    const particleCount = 45;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() * 1.5 + 0.8),
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 2 + 1.5,
+        color: i % 3 === 0 ? '#38bdf8' : (i % 3 === 1 ? '#818cf8' : '#34d399')
+      });
+    }
+
+    let time = 0;
+    function render() {
+      time += 0.02;
+      ctx.fillStyle = 'rgba(3, 7, 18, 0.28)';
+      ctx.fillRect(0, 0, width, height);
+
+      // Render harmonic kinetic sine carrier
+      ctx.beginPath();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+      for (let x = 0; x < width; x += 4) {
+        const y = height / 2 + Math.sin(x * 0.015 + time) * 35 * Math.sin(time * 0.5);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Second harmonic carrier
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(129, 140, 248, 0.25)';
+      for (let x = 0; x < width; x += 6) {
+        const y = height / 2 + Math.cos(x * 0.012 - time * 0.8) * 25;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Render flowing stream packets
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      requestAnimationFrame(render);
+    }
+    render();
+
+    // 4. GSAP Entrance Animations
+    if (window.gsap) {
+      gsap.from('.hero-eyebrow', { opacity: 0, y: -15, duration: 0.8, ease: 'power3.out' });
+      gsap.from('.hero-h1', { opacity: 0, y: 25, duration: 1, delay: 0.1, ease: 'power3.out' });
+      gsap.from('.hero-p', { opacity: 0, y: 20, duration: 1, delay: 0.25, ease: 'power3.out' });
+      gsap.from('.hero-actions', { opacity: 0, y: 20, duration: 1, delay: 0.4, ease: 'power3.out' });
+      gsap.from('.canvas-card', { opacity: 0, scale: 0.95, y: 30, duration: 1.2, delay: 0.5, ease: 'power3.out' });
+    }
+  </script>
 </body>
 </html>
