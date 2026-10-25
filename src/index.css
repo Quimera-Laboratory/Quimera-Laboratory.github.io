@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --bg-obsidian: #030305;
+  --bg-elevated: #08090C;
+  --bg-editorial: #0A0B10;
+  --bg-glass: rgba(12, 14, 20, 0.65);
+  
+  --border-hairline: rgba(255, 255, 255, 0.07);
+  --border-glow: rgba(0, 245, 212, 0.35);
+
+  --cyan-surgical: #00F5D4;
+  --violet-spectral: #9d4edd;
+  --amber-telemetry: #FFB703;
+  --emerald-status: #10b981;
+
+  --text-main: #f9fafb;
+  --text-dim: #9ca3af;
+  --text-sub: #6b7280;
+
+  --font-display: 'Space Grotesk', 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Newsreader', 'Instrument Serif', Georgia, serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-obsidian);
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif-math {
+  font-family: var(--font-serif);
+}
+
+.font-code {
+  font-family: var(--font-code);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ambient noise and subtle grid */
+.quantum-noise {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 245, 212, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(157, 78, 221, 0.07) 0%, transparent 55%),
+    radial-gradient(circle at 15% 75%, rgba(255, 183, 3, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blueprint-grid {
+  position: fixed;
+  inset: 0;
+  background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 35%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 35%, transparent 100%);
+  transition: opacity 0.4s ease;
+}
+
+.blueprint-grid-high {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 245, 212, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 245, 212, 0.035) 1px, transparent 1px);
+}
+
+/* Spotlight hairline card */
+.spotlight-card {
+  position: relative;
+  background: var(--bg-editorial);
+  border: 1px solid var(--border-hairline);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.spotlight-card:hover {
+  border-color: rgba(0, 245, 212, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 245, 212, 0.08);
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: radial-gradient(
+    480px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(0, 245, 212, 0.16),
+    transparent 45%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* KaTeX custom sizing in dark mode */
+.katex-display {
+  margin: 0.8em 0 !important;
+  padding: 0.8em !important;
+  background: rgba(4, 6, 12, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex {
+  font-size: 1.05em !important;
+  color: #f1f5f9 !important;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}

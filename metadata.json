@@ -1,0 +1,7 @@
+{
+  "name": "Quimera Laboratory",
+  "description": "Kinetic Infrastructure & Distributed Media Engines — Quimera Laboratory landing, telemetry, and kineplex showcase.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
