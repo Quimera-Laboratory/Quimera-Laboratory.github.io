@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quimera Laboratory | Next-Gen Kinetic Systems & Distributed Infrastructure</title>
+  <meta name="description" content="Quimera Laboratory - Engineering high-throughput distributed media engines, kinetic streaming pipelines, and real-time computing systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-border: rgba(56, 189, 248, 0.15);
+      --card-border-hover: rgba(56, 189, 248, 0.45);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.18), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 85% 60%, rgba(168, 85, 247, 0.12), transparent 70%),
+        radial-gradient(circle at 15% 75%, rgba(16, 185, 129, 0.08), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Ambient animated grid */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 14, 0.75);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #9333ea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .brand-logo svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .brand-text {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.15rem;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .btn-github:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 70px;
+      text-align: center;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #6366f1);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 28px rgba(56, 189, 248, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text);
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Architecture / Stats Strip */
+    .metrics-bar {
+      margin: 50px auto 70px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .metric-item {
+      text-align: center;
+      padding: 8px;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Section Styling */
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Grid Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5), 0 0 24px rgba(56, 189, 248, 0.15);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 16px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: gap 0.2s ease;
+    }
+
+    .card-link:hover {
+      gap: 10px;
+    }
+
+    /* Terminal Preview Box */
+    .terminal-container {
+      background: #0b0f19;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 90px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .terminal-topbar {
+      background: #111827;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+    .dot-green { background: #22c55e; }
+
+    .term-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-left: 8px;
+    }
+
+    .terminal-body {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #cbd5e1;
+      overflow-x: auto;
+    }
+
+    .term-prompt { color: var(--accent); }
+    .term-comment { color: #64748b; }
+    .term-highlight { color: #f472b6; }
+    .term-ok { color: #4ade80; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay"></div>
+
+  <header>
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#" class="brand">
+          <div class="brand-logo">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <div>
+            <span class="brand-text">Quimera Laboratory</span>
+          </div>
+          <span class="brand-tag">v1.0</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="#initiatives" class="nav-link">Research</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-github">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>ENGINEERING RESEARCH & SYSTEMS LAB</span>
+      </div>
+      <h1 class="hero-title">
+        Architecting the Next Wave of<br>
+        <span>Kinetic Infrastructure</span>
+      </h1>
+      <p class="hero-desc">
+        Quimera Laboratory pioneers high-throughput distributed media engines, ultra-low latency streaming pipelines, and resilient micro-architecture for the decentralized web.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">Explore Technologies</a>
+        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="btn-secondary">Explore GitHub Org &rarr;</a>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-value">&lt; 1.8ms</div>
+          <div class="metric-label">Target Latency</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">100%</div>
+          <div class="metric-label">Automated CI/CD</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">Zero-Cost</div>
+          <div class="metric-label">SSL & Static Edge</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">Multi-Core</div>
+          <div class="metric-label">Parallel Pipelines</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-header">
+        <h2 class="section-title">Open Repositories & Systems</h2>
+        <p class="section-sub">Production-grade engines and open-source infrastructure developed by Quimera.</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="card">
+          <span class="card-tag">CORE ENGINE</span>
+          <h3 class="card-title">kineplex</h3>
+          <p class="card-desc">
+            Low-Latency Kinetic Stream Multiplexer & Distributed Media Pipeline Engine. Designed for heavy throughput, packet scheduling, and resilient edge delivery.
+          </p>
+          <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener" class="card-link">
+            Inspect Source Code &rarr;
+          </a>
+        </div>
+
+        <div class="card">
+          <span class="card-tag">PORTAL & STATIC EDGE</span>
+          <h3 class="card-title">quimera-laboratory.github.io</h3>
+          <p class="card-desc">
+            The central GitHub Pages hub for Quimera Laboratory. Instantaneous deployment, zero-cost automated SSL/TLS, and custom domain orchestration via GitHub Actions.
+          </p>
+          <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener" class="card-link">
+            Repository Details &rarr;
+          </a>
+        </div>
+
+        <div class="card">
+          <span class="card-tag">PROTOCOL RESEARCH</span>
+          <h3 class="card-title">Kinetic Stream Protocols</h3>
+          <p class="card-desc">
+            Specifications and benchmarks for sub-millisecond adaptive streaming, multiplexing protocols, and decentralized consensus primitives.
+          </p>
+          <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener" class="card-link">
+            Organization Hub &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terminal Spec Sheet -->
+    <div class="terminal-container">
+      <div class="terminal-topbar">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+        <span class="term-title">quimera-edge :: diagnostics</span>
+      </div>
+      <div class="terminal-body">
+        <p><span class="term-prompt">$</span> quimera-status --endpoint pages.quimera-laboratory.github.io</p>
+        <p class="term-ok">✓ Gateway: Active [GitHub Pages CDN / Fastly Global Anycast]</p>
+        <p class="term-ok">✓ TLS/SSL Certificate: Auto-Provisioned (Let's Encrypt / DigiCert)</p>
+        <p class="term-ok">✓ CI/CD Pipeline: GitHub Actions Automation Active</p>
+        <p><span class="term-prompt">$</span> echo "Quimera Laboratory: Redefining kinetic streaming standards."</p>
+        <p class="term-highlight">Quimera Laboratory: Redefining kinetic streaming standards.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/Quimera-Laboratory" target="_blank" rel="noopener">GitHub Organization</a>
+        <a href="https://github.com/Quimera-Laboratory/Quimera-Laboratory.github.io" target="_blank" rel="noopener">Portal Source</a>
+        <a href="https://github.com/Quimera-Laboratory/kineplex" target="_blank" rel="noopener">kineplex Engine</a>
+      </div>
+      <p>&copy; 2026 Quimera Laboratory. Built for distributed performance and open-source innovation.</p>
+    </div>
+  </footer>
+</body>
+</html>
