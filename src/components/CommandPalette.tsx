@@ -109,10 +109,30 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       },
     },
     {
+      id: 'bibtex-paper-decentralized',
+      label: 'Copy BibTeX: Decentralized Topological Routing (WJAIRR / SSRN 2026)',
+      category: 'Publications / BibTeX',
+      icon: <Copy className="w-4 h-4 text-[#00F5D4]" />,
+      action: () => {
+        onOpenBibtex('decentralized-routing');
+        onClose();
+      },
+    },
+    {
+      id: 'bibtex-paper-arithmetic',
+      label: 'Copy BibTeX: Arithmetic Gradient Model (SSRN 2026)',
+      category: 'Publications / BibTeX',
+      icon: <Copy className="w-4 h-4 text-[#FFB703]" />,
+      action: () => {
+        onOpenBibtex('arithmetic-gradient');
+        onClose();
+      },
+    },
+    {
       id: 'bibtex-paper-1',
       label: 'Copy BibTeX: Urban Population Dynamics (SIAM MMS 2026)',
       category: 'Publications / BibTeX',
-      icon: <Copy className="w-4 h-4 text-[#00F5D4]" />,
+      icon: <Copy className="w-4 h-4 text-[#9d4edd]" />,
       action: () => {
         onOpenBibtex('urban-dynamics');
         onClose();
@@ -122,7 +142,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       id: 'bibtex-paper-2',
       label: 'Copy BibTeX: Lock-Free Invariant Enforcement & io_uring VFS',
       category: 'Publications / BibTeX',
-      icon: <Copy className="w-4 h-4 text-[#FFB703]" />,
+      icon: <Copy className="w-4 h-4 text-emerald-400" />,
       action: () => {
         onOpenBibtex('kinesql-io_uring');
         onClose();
@@ -131,7 +151,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   ];
 
   const searchResults = [
-    { title: 'Gemirson dos Santos Silva', tag: 'PI / Systems', desc: 'Principal Investigator: Discrete Differential Geometry, io_uring, AVX-512, sub-centile invariants', hash: '#pesquisadores' },
+    { title: 'Gemirson dos Santos Silva', tag: 'PI / Systems', desc: 'Principal Investigator: Discrete Differential Geometry, io_uring, AVX-512, sub-centile invariants (ORCID: 0009-0004-6491-3818)', hash: '#pesquisadores' },
+    { title: 'Paper: Decentralized Topological Routing', tag: 'cs.DC / cs.PF', desc: 'KineQuet engine: Jump Consistent Hash, Arrow IPC, 200M records in 11.08s (161MB RAM)', hash: '#papers' },
+    { title: 'Paper: Arithmetic Gradient Model', tag: 'q-fin.CP', desc: 'Approximating seasonal & irregular cash flows via arithmetic gradient series', hash: '#papers' },
     { title: 'Prof. Dr. João Frederico Meyer', tag: 'Faculty / UNICAMP', desc: 'Senior Collaborating Researcher (IMECC/UNICAMP): Biomathematics, PDEs, Holling Type II', hash: '#pesquisadores' },
     { title: 'Quimera Research Collectives', tag: 'Working Groups', desc: 'Distributed Systems, Cybernetic Architecture, and Quantitative Engineering Labs', hash: '#pesquisadores' },
     { title: 'Quimera Core', tag: 'cs.SE / math.DS', desc: 'Cybernetic immune testing platform with Ollivier-Ricci curvature and synthetic mRNA', hash: '#ecossistema' },

@@ -157,6 +157,16 @@ export const DeepTechFooter: React.FC<DeepTechFooterProps> = ({
             </h4>
             <ul className="space-y-2 font-code text-xs">
               <li>
+                <a href="#papers" className="hover:text-white transition-colors line-clamp-1" title="Decentralized Topological Routing">
+                  Decentralized Routing (WJAIRR/SSRN)
+                </a>
+              </li>
+              <li>
+                <a href="#papers" className="hover:text-white transition-colors line-clamp-1" title="Arithmetic Gradient Model">
+                  Arithmetic Gradient (SSRN 2026)
+                </a>
+              </li>
+              <li>
                 <a href="#papers" className="hover:text-white transition-colors line-clamp-1" title="Urban Population Dynamics">
                   Urban Population Dynamics (SIAM MMS)
                 </a>

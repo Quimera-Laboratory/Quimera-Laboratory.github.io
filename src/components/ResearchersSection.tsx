@@ -14,7 +14,10 @@ import {
   ArrowUpRight,
   ShieldCheck,
   ChevronRight,
-  Users
+  Users,
+  Award,
+  Zap,
+  Globe
 } from 'lucide-react';
 import { MathFormula } from './MathFormula';
 
@@ -24,15 +27,22 @@ export interface ResearcherProfile {
   role: string;
   affiliation: string;
   institutionSub: string;
+  education?: string;
   location: string;
   email?: string;
   externalLink?: string;
   externalLinkLabel?: string;
   orcid?: string;
+  orcidUrl?: string;
   scholarUrl?: string;
+  scholarLabel?: string;
   domains: string[];
   bio: string;
   methodology: string;
+  empiricalBenchmark?: {
+    metric: string;
+    description: string;
+  };
   primaryMonographs: {
     title: string;
     venue: string;
@@ -63,26 +73,50 @@ const facultyMembers: ResearcherProfile[] = [
     role: 'Principal Investigator & Chief Systems Architect',
     affiliation: 'Quimera Laboratory',
     institutionSub: 'Cybernetics, Distributed Systems & Applied Mathematics Group',
-    location: 'São Paulo / Campinas, Brazil',
+    education: 'B.S. Electrical Engineering (UNIVASF) · Systems Architecture & Applied Software Engineering',
+    location: 'São Paulo / Petrolina / Campinas, Brazil',
     email: 'gemirson.silva@gmail.com',
+    orcid: '0009-0004-6491-3818',
+    orcidUrl: 'https://orcid.org/0009-0004-6491-3818',
+    scholarUrl: 'https://scholar.google.com/citations?view_op=search_authors&mauthors=Gemirson+dos+Santos+Silva',
+    scholarLabel: 'Google Scholar Profile',
     externalLink: 'https://github.com/Quimera-Laboratory',
-    externalLinkLabel: 'GitHub Lab Profile',
+    externalLinkLabel: 'GitHub Lab Organization',
     domains: [
+      'High-Performance Distributed Systems',
       'Discrete Differential Geometry',
-      'Low-Level Systems & io_uring',
-      'Multiscale Nonlinear Dynamics',
-      'Axiomatic Ledger Invariants',
-      'AVX-512 SIMD Vectorization'
+      'Mechanical Sympathy & Cache Geometries',
+      'Low-Level Systems & io_uring VFS',
+      'Nonlinear Multiscale Population Dynamics',
+      'Financial Event Sourcing & Invariants'
     ],
-    bio: 'Systems architect and researcher specializing in the intersection of discrete differential geometry, kernel-level asynchronous I/O, and deterministic distributed state replication. Formulated discrete Ollivier-Ricci curvature bounds on program control flow graphs for adaptive mutation testing and co-authored the elastic carrying capacity framework for multiscale urban population dynamics.',
-    methodology: 'Mechanical Sympathy coupled to rigorous differential topology: elimination of OS abstraction overhead via direct io_uring ring buffers, 64-byte L1 cache-line layout alignment, and compile-time invariant enforcement under strict concurrency guarantees.',
+    bio: 'Software engineer, solutions architect, and principal researcher directing research at Quimera Laboratory. His work investigates the intersection of low-level hardware alignment (Mechanical Sympathy), discrete differential geometry on control flow graphs, kernel-bypass asynchronous I/O with io_uring, and deterministic high-frequency financial reconciliation.',
+    methodology: 'Mechanical Sympathy combined with topological rigor: zero-copy in-memory Arrow columnar layouts, 64-byte L1 cache-line packing, elimination of system call overhead via io_uring submission queues, and asymptotic drift elimination in financial event algebras.',
+    empiricalBenchmark: {
+      metric: '200M Records in 11.08s (161 MB RAM)',
+      description: 'Decentralized custody reconciliation completed over 200,000,000 transaction records with zero locks and deterministic Jump Consistent Hash routing.'
+    },
     primaryMonographs: [
+      {
+        title: 'Decentralized Topological Routing for High-Frequency Data Reconciliation: An Approach via Mechanical Sympathy',
+        venue: 'World Journal of Artificial Intelligence and Robotics Research (WJAIRR) / SSRN',
+        year: '2026',
+        paperId: 'decentralized-routing',
+        doiOrNote: 'SSRN Working Paper · Benchmark: 200M Records in 11.08s'
+      },
+      {
+        title: 'Arithmetic Gradient Model for Approximating Seasonal/Irregular Cash Flows',
+        venue: 'SSRN Electronic Journal / Research Monograph Series',
+        year: '2026',
+        paperId: 'arithmetic-gradient',
+        doiOrNote: 'SSRN Financial Mathematics Monograph'
+      },
       {
         title: 'Urban Population Dynamics via Elastic Carrying Capacity and Saturable Social Friction',
         venue: 'SIAM Journal on Multiscale Modeling & Simulation (MMS)',
         year: '2026',
         paperId: 'urban-dynamics',
-        doiOrNote: 'In collaboration with IMECC / UNICAMP'
+        doiOrNote: 'Submitted · Co-authored with Prof. Dr. João Frederico Meyer (IMECC/UNICAMP)'
       },
       {
         title: 'Lock-Free Invariant Enforcement and Sub-Millisecond Event Sourcing over io_uring VFS',
@@ -104,15 +138,28 @@ const facultyMembers: ResearcherProfile[] = [
         year: '2026',
         paperId: 'subcentile-accounting',
         doiOrNote: 'Technical Monograph QL-2026-QF04'
+      },
+      {
+        title: 'Ephemeral Bare-Metal Router: Routing Events from Inside Your Own microVM Snapshot',
+        venue: 'High-Performance Systems & MicroVM Architecture Monograph',
+        year: '2026',
+        doiOrNote: 'Firecracker Snapshot Routing & Bumpalo Arena Allocator'
+      },
+      {
+        title: 'The Mathematical Lens of Spatial and Temporal Complexity in Software Engineering',
+        venue: 'Foundations of Applied Computing & Systems Optimization',
+        year: '2026',
+        doiOrNote: 'Asymptotic Analysis & Cache Hierarchy Bounds'
       }
     ],
     architecturalContributions: [
-      'KineQuet & KineSQL io_uring VFS storage engine with SIMD vectorization',
-      'kineplex cache-aligned 64-byte broadcast multiplexer and transport layer',
-      'Cytokine & Mutator discrete curvature artificial immune test harness',
-      'Synapse Protocol decentralized topological message routing over Arrow IPC'
+      'KineQuet high-performance data engineering engine with Jump Consistent Hash and zero-copy Arrow layouts',
+      'KineSQL io_uring VFS storage engine with AVX-512 SIMD vectorization and Reed-Solomon FEC',
+      'kineplex cache-aligned 64-byte broadcast multiplexer and real-time streaming engine',
+      'Cytokine & Mutator discrete curvature artificial immune test harness (Ollivier-Ricci CFG bounds)',
+      'Synapse Protocol decentralized topological message routing over Arrow IPC and FlatBuffers'
     ],
-    latexSnippet: '\\kappa(x, y) = 1 - \\frac{W_1(m_x, m_y)}{d(x, y)} \\ge \\kappa_0 > 0, \\quad \\delta_{\\text{drift}} < 10^{-18}'
+    latexSnippet: 'h(k, j) = \\left\\lfloor (b + 1) \\cdot \\frac{R}{2^{31}} \\right\\rfloor, \\quad T_{\\text{reconcile}}(2 \\times 10^8) = 11.08\\,\\text{s} \\; (\\text{RAM} \\le 161\\,\\text{MB})'
   },
   {
     id: 'joao-frederico-meyer',
@@ -120,17 +167,18 @@ const facultyMembers: ResearcherProfile[] = [
     role: 'Senior Collaborating Academic Researcher & Faculty Advisor',
     affiliation: 'State University of Campinas (UNICAMP)',
     institutionSub: 'Department of Applied Mathematics — IMECC (Institute of Mathematics, Statistics and Scientific Computing)',
+    education: 'Ph.D. in Applied Mathematics · Distinguished Biomathematics & Mathematical Ecology Chair',
     location: 'Campinas, São Paulo, Brazil',
     externalLink: 'https://www.ime.unicamp.br',
-    externalLinkLabel: 'IMECC / UNICAMP Faculty Page',
+    externalLinkLabel: 'IMECC / UNICAMP Faculty Profile',
     domains: [
       'Biomathematics & Mathematical Biology',
       'Partial Differential Equations (PDEs)',
-      'Ecological Modeling & Dispersion',
-      'Holling Functional Responses',
-      'Environmental Transport Dynamics'
+      'Ecological Modeling & Dispersion Dynamics',
+      'Holling Type II & III Functional Responses',
+      'Environmental & Urban Transport Models'
     ],
-    bio: 'Distinguished professor of applied mathematics at IMECC/UNICAMP with extensive contributions to biomathematics, ecological population dynamics, and partial differential equations. Collaborates with Quimera Laboratory on multiscale urban systems, non-local diffusion operators, and saturable nonlinear response regimes.',
+    bio: 'Distinguished professor of applied mathematics at IMECC/UNICAMP with decades of foundational contributions to biomathematics, ecological population dynamics, and boundary value problems in partial differential equations. Collaborates with Quimera Laboratory on multiscale urban systems, non-local diffusion operators, and saturable nonlinear response regimes.',
     methodology: 'Coupling nonlinear reaction-diffusion partial differential equations with empirical demographic time series, investigating topological stability, threshold dynamics, and boundary controllability in complex social and biological networks.',
     primaryMonographs: [
       {
@@ -138,7 +186,7 @@ const facultyMembers: ResearcherProfile[] = [
         venue: 'SIAM Journal on Multiscale Modeling & Simulation (MMS)',
         year: '2026',
         paperId: 'urban-dynamics',
-        doiOrNote: 'Co-authored with Silva, Gemirson dos Santos'
+        doiOrNote: 'Submitted · Joint monograph with Gemirson dos Santos Silva'
       }
     ],
     architecturalContributions: [
@@ -239,7 +287,7 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
                 : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
             }`}
           >
-            All Personnel ({facultyMembers.length + collectives.length})
+            All Faculty & Labs ({facultyMembers.length + collectives.length})
           </button>
           <button
             onClick={() => setActiveTab('faculty')}
@@ -249,7 +297,7 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
                 : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
             }`}
           >
-            Principal Faculty ({facultyMembers.length})
+            Faculty Dossiers ({facultyMembers.length})
           </button>
           <button
             onClick={() => setActiveTab('collectives')}
@@ -285,7 +333,7 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
                   {/* Institutional Header & Status */}
                   <div className="flex items-start justify-between gap-4 mb-5 border-b border-white/10 pb-5">
                     <div>
-                      <div className="flex items-center gap-2 text-xs font-code text-gray-400 mb-1.5">
+                      <div className="flex items-center gap-2 text-xs font-code text-gray-400 mb-1.5 flex-wrap">
                         <span className="text-[#00F5D4] font-medium">{member.affiliation}</span>
                         <span>/</span>
                         <span>{member.location}</span>
@@ -299,12 +347,65 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
                       <p className="text-xs text-gray-400 font-code mt-0.5">
                         {member.institutionSub}
                       </p>
+                      {member.education && (
+                        <p className="text-[11px] text-gray-500 font-code mt-1.5">
+                          {member.education}
+                        </p>
+                      )}
                     </div>
 
                     <div className="w-12 h-12 rounded-xl bg-[#030305] border border-white/15 p-2 flex items-center justify-center shrink-0 shadow-inner">
                       <GraduationCap className="w-6 h-6 text-[#00F5D4]" />
                     </div>
                   </div>
+
+                  {/* Academic Registries (ORCID & Google Scholar) */}
+                  {(member.orcid || member.scholarUrl) && (
+                    <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-code">
+                      {member.orcid && (
+                        <a
+                          href={member.orcidUrl || `https://orcid.org/${member.orcid}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#a6ce39]/10 border border-[#a6ce39]/25 text-[#a6ce39] hover:bg-[#a6ce39]/20 transition-colors"
+                          title="View Verified ORCID Registry"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-[#a6ce39]" />
+                          <span>ORCID: {member.orcid}</span>
+                          <ExternalLink className="w-3 h-3 ml-0.5" />
+                        </a>
+                      )}
+
+                      {member.scholarUrl && (
+                        <a
+                          href={member.scholarUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-sky-500/10 border border-sky-500/25 text-sky-400 hover:bg-sky-500/20 transition-colors"
+                          title="View Google Scholar Citations & Publications"
+                        >
+                          <BookOpen className="w-3 h-3" />
+                          <span>{member.scholarLabel || 'Google Scholar'}</span>
+                          <ExternalLink className="w-3 h-3 ml-0.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Empirical Benchmark Metric (If available) */}
+                  {member.empiricalBenchmark && (
+                    <div className="mb-6 p-4 rounded-xl bg-[#00F5D4]/5 border border-[#00F5D4]/20 flex items-start gap-3">
+                      <Zap className="w-4 h-4 text-[#00F5D4] shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-xs font-bold text-white font-code block">
+                          Empirical Benchmark: {member.empiricalBenchmark.metric}
+                        </span>
+                        <span className="text-[11px] text-gray-300 font-sans leading-relaxed block mt-0.5">
+                          {member.empiricalBenchmark.description}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Scientific Domains (Zero-pill: Unboxed text with subtle separators) */}
                   <div className="mb-5">
@@ -334,11 +435,14 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
 
                   {/* Primary Monograph Highlights */}
                   <div className="mb-6">
-                    <p className="text-[11px] font-code uppercase tracking-wider text-gray-400 mb-2.5 flex items-center gap-1.5">
-                      <BookOpen className="w-3.5 h-3.5 text-[#9d4edd]" />
-                      <span>Authored Monographs & Manuscripts</span>
+                    <p className="text-[11px] font-code uppercase tracking-wider text-gray-400 mb-2.5 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5">
+                        <BookOpen className="w-3.5 h-3.5 text-[#9d4edd]" />
+                        <span>Authored Monographs & Manuscripts ({member.primaryMonographs.length})</span>
+                      </span>
+                      <span className="text-[10px] text-gray-500 font-normal">Click to inspect</span>
                     </p>
-                    <div className="space-y-2">
+                    <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
                       {member.primaryMonographs.map((mono, idx) => (
                         <div
                           key={idx}
@@ -420,17 +524,30 @@ export const ResearchersSection: React.FC<ResearchersSectionProps> = ({ onOpenBi
                     )}
                   </div>
 
-                  {member.externalLink && (
-                    <a
-                      href={member.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sky-400 hover:text-sky-300 transition-colors"
-                    >
-                      <span>{member.externalLinkLabel || 'Academic Profile'}</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
+                  <div className="flex items-center gap-4">
+                    {member.scholarUrl && (
+                      <a
+                        href={member.scholarUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sky-400 hover:text-sky-300 transition-colors"
+                      >
+                        <span>Scholar Citations</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                    {member.externalLink && (
+                      <a
+                        href={member.externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
+                      >
+                        <span>{member.externalLinkLabel || 'Academic Profile'}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
