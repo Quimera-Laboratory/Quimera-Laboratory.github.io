@@ -12,7 +12,8 @@ import {
   Check, 
   X, 
   Sparkles,
-  Grid
+  Grid,
+  GraduationCap
 } from 'lucide-react';
 
 interface CommandPaletteProps {
@@ -78,6 +79,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       },
     },
     {
+      id: 'nav-researchers',
+      label: 'Navigate to: Researchers & Scientific Faculty',
+      category: 'Navigation',
+      icon: <GraduationCap className="w-4 h-4 text-[#00F5D4]" />,
+      action: () => {
+        window.location.hash = '#pesquisadores';
+        onClose();
+      },
+    },
+    {
       id: 'nav-stack',
       label: 'Navigate to: Systems Architecture & Runtime Matrix',
       category: 'Navigation',
@@ -120,6 +131,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   ];
 
   const searchResults = [
+    { title: 'Gemirson dos Santos Silva', tag: 'PI / Systems', desc: 'Principal Investigator: Discrete Differential Geometry, io_uring, AVX-512, sub-centile invariants', hash: '#pesquisadores' },
+    { title: 'Prof. Dr. João Frederico Meyer', tag: 'Faculty / UNICAMP', desc: 'Senior Collaborating Researcher (IMECC/UNICAMP): Biomathematics, PDEs, Holling Type II', hash: '#pesquisadores' },
+    { title: 'Quimera Research Collectives', tag: 'Working Groups', desc: 'Distributed Systems, Cybernetic Architecture, and Quantitative Engineering Labs', hash: '#pesquisadores' },
     { title: 'Quimera Core', tag: 'cs.SE / math.DS', desc: 'Cybernetic immune testing platform with Ollivier-Ricci curvature and synthetic mRNA', hash: '#ecossistema' },
     { title: 'KineQuet / KineSQL', tag: 'cs.DC', desc: 'Append-only engine with SQLite VFS over io_uring, AVX2, and Reed-Solomon FEC', hash: '#ecossistema' },
     { title: 'Kineplex Engine', tag: 'cs.PF', desc: 'Cache-aligned lock-free stream multiplexer with AVX-512 SIMD vectorization', hash: '#kineplex' },

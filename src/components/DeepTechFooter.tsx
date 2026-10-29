@@ -12,7 +12,8 @@ import {
   BookOpen,
   Cpu,
   Layers,
-  Compass
+  Compass,
+  GraduationCap
 } from 'lucide-react';
 
 interface DeepTechFooterProps {
@@ -175,10 +176,16 @@ export const DeepTechFooter: React.FC<DeepTechFooterProps> = ({
                   Sub-Centile Accounting Invariants
                 </a>
               </li>
+              <li>
+                <a href="#pesquisadores" className="hover:text-white transition-colors flex items-center gap-1.5 text-[#00F5D4]">
+                  <GraduationCap className="w-3 h-3 text-[#00F5D4]" />
+                  <span>Faculty & UNICAMP Collaborators</span>
+                </a>
+              </li>
               <li className="pt-2">
                 <button
                   onClick={onOpenCommandPalette}
-                  className="text-xs text-[#00F5D4] hover:underline flex items-center gap-1"
+                  className="text-xs text-[#00F5D4] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Export All BibTeX Citations</span>
                   <ExternalLink className="w-3 h-3" />

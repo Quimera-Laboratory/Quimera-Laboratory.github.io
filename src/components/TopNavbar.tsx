@@ -11,7 +11,8 @@ import {
   BookOpen, 
   Cpu, 
   Compass, 
-  GitFork 
+  GitFork,
+  GraduationCap
 } from 'lucide-react';
 
 interface TopNavbarProps {
@@ -42,6 +43,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   const navLinks = [
     { id: 'ecossistema', label: 'Ecosystem', href: '#ecossistema' },
     { id: 'papers', label: 'Publications', href: '#papers' },
+    { id: 'pesquisadores', label: 'Faculty', href: '#pesquisadores' },
     { id: 'pesquisa', label: 'Research', href: '#pesquisa' },
     { id: 'stack', label: 'Stack', href: '#stack' },
     { id: 'filosofia', label: 'Philosophy', href: '#filosofia' },
@@ -216,13 +218,25 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           </a>
 
           <a
+            href="#pesquisadores"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between px-3 py-2 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg"
+          >
+            <span className="flex items-center gap-2">
+              <GraduationCap className="w-3.5 h-3.5 text-[#00F5D4]" />
+              [03. Faculty] — Researchers & Labs
+            </span>
+            <span className="text-gray-500 text-[11px]">Faculty & Labs</span>
+          </a>
+
+          <a
             href="#pesquisa"
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center justify-between px-3 py-2 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg"
           >
             <span className="flex items-center gap-2">
               <Compass className="w-3.5 h-3.5 text-sky-400" />
-              [03. Research] — Research Pillars
+              [04. Research] — Research Pillars
             </span>
             <span className="text-gray-500 text-[11px]">6 Pillars</span>
           </a>
@@ -234,7 +248,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           >
             <span className="flex items-center gap-2">
               <Cpu className="w-3.5 h-3.5 text-[#FFB703]" />
-              [04. Stack] — Low-Level Systems
+              [05. Stack] — Low-Level Systems
             </span>
             <span className="text-gray-500 text-[11px]">Matrix</span>
           </a>
@@ -246,7 +260,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           >
             <span className="flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 text-emerald-400" />
-              [05. Philosophy] — Mechanical Sympathy
+              [06. Philosophy] — Mechanical Sympathy
             </span>
             <span className="text-gray-500 text-[11px]">3 Axioms</span>
           </a>

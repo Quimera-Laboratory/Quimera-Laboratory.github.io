@@ -8,7 +8,8 @@ import {
   ArrowUp,
   Activity,
   Terminal,
-  Grid
+  Grid,
+  GraduationCap
 } from 'lucide-react';
 
 interface BottomFloatingBarProps {
@@ -45,6 +46,7 @@ export const BottomFloatingBar: React.FC<BottomFloatingBarProps> = ({
   const navItems = [
     { id: 'ecossistema', label: 'Engines', icon: <Layers className="w-3.5 h-3.5" />, href: '#ecossistema' },
     { id: 'papers', label: 'Papers', icon: <BookOpen className="w-3.5 h-3.5" />, href: '#papers' },
+    { id: 'pesquisadores', label: 'Faculty', icon: <GraduationCap className="w-3.5 h-3.5" />, href: '#pesquisadores' },
     { id: 'stack', label: 'Stack', icon: <Cpu className="w-3.5 h-3.5" />, href: '#stack' },
     { id: 'filosofia', label: 'Philosophy', icon: <Compass className="w-3.5 h-3.5" />, href: '#filosofia' },
   ];

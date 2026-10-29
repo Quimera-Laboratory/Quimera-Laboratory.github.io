@@ -24,6 +24,7 @@ import { TopologicalManifoldCanvas } from './components/TopologicalManifoldCanva
 import { KineticCanvas } from './components/KineticCanvas';
 import { EcosystemEnginesGrid } from './components/EcosystemEnginesGrid';
 import { PublicationsSection, ScientificPaper, papersDatabase } from './components/PublicationsSection';
+import { ResearchersSection } from './components/ResearchersSection';
 import { BibtexDrawer } from './components/BibtexDrawer';
 import { CommandPalette } from './components/CommandPalette';
 import { ResearchPillars } from './components/ResearchPillars';
@@ -51,7 +52,7 @@ export const App: React.FC = () => {
 
   // Active section scroll spy
   useEffect(() => {
-    const sectionIds = ['ecossistema', 'papers', 'pesquisa', 'stack', 'filosofia'];
+    const sectionIds = ['ecossistema', 'papers', 'pesquisadores', 'pesquisa', 'stack', 'filosofia'];
     
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -230,11 +231,14 @@ export const App: React.FC = () => {
         {/* [03] SEÇÃO ESPECIAL: PUBLICATIONS, PREPRINTS & MATHEMATICAL MONOGRAPHS */}
         <PublicationsSection onSelectBibtex={(paper) => setSelectedBibtexPaper(paper)} />
 
-        {/* [04] LINHAS DE PESQUISA E PILARES TECNOLÓGICOS */}
+        {/* [04] RESEARCHERS & SCIENTIFIC FACULTY */}
+        <ResearchersSection onOpenBibtexForPaper={handleOpenBibtexById} />
+
+        {/* [05] LINHAS DE PESQUISA E PILARES TECNOLÓGICOS */}
         <section id="pesquisa" className="py-24 border-t border-white/5">
           <div className="mb-12">
             <div className="inline-flex items-center gap-2 font-code text-xs text-[#9d4edd] bg-[#9d4edd]/10 border border-[#9d4edd]/25 px-3 py-1 rounded-md mb-4">
-              <span>02. RESEARCH AXIS & THEOREMS</span>
+              <span>04. RESEARCH AXIS & THEOREMS</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
               Research Divisions & Foundational Pillars
@@ -247,11 +251,11 @@ export const App: React.FC = () => {
           <ResearchPillars />
         </section>
 
-        {/* [05] SYSTEMS ARCHITECTURE & RUNTIME MATRIX */}
+        {/* [06] SYSTEMS ARCHITECTURE & RUNTIME MATRIX */}
         <section id="stack" className="py-24 border-t border-white/5">
           <div className="mb-12">
             <div className="inline-flex items-center gap-2 font-code text-xs text-[#FFB703] bg-[#FFB703]/10 border border-[#FFB703]/25 px-3 py-1 rounded-md mb-4">
-              <span>04. LOW-LEVEL SYSTEMS & RUNTIMES MATRIX</span>
+              <span>05. LOW-LEVEL SYSTEMS & RUNTIMES MATRIX</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
               Systems Architecture & Runtime Matrix
@@ -264,11 +268,11 @@ export const App: React.FC = () => {
           <TechStackTable />
         </section>
 
-        {/* [06] ENGINEERING PHILOSOPHY */}
+        {/* [07] ENGINEERING PHILOSOPHY */}
         <section id="filosofia" className="py-24 border-t border-white/5">
           <div className="mb-12">
             <div className="inline-flex items-center gap-2 font-code text-xs text-sky-400 bg-sky-400/10 border border-sky-400/25 px-3 py-1 rounded-md mb-4">
-              <span>05. THREE INVIOLABLE PRINCIPLES</span>
+              <span>06. THREE INVIOLABLE PRINCIPLES</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
               Engineering Philosophy & Axioms
