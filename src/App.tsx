@@ -1,368 +1,902 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  ArrowRight, 
-  ExternalLink, 
-  Zap, 
-  Globe, 
-  ShieldCheck, 
-  GitFork, 
-  Layers, 
-  CheckCircle2,
-  Sparkles,
-  Terminal,
-  Activity,
-  Compass,
-  Cpu,
-  BookOpen,
-  Search,
-  Grid
-} from 'lucide-react';
-import { TopNavbar } from './components/TopNavbar';
-import { BottomFloatingBar } from './components/BottomFloatingBar';
-import { DeepTechFooter } from './components/DeepTechFooter';
-import { TopologicalManifoldCanvas } from './components/TopologicalManifoldCanvas';
-import { KineticCanvas } from './components/KineticCanvas';
-import { EcosystemEnginesGrid } from './components/EcosystemEnginesGrid';
-import { PublicationsSection, ScientificPaper, papersDatabase } from './components/PublicationsSection';
-import { ResearchersSection } from './components/ResearchersSection';
-import { BibtexDrawer } from './components/BibtexDrawer';
-import { CommandPalette } from './components/CommandPalette';
-import { ResearchPillars } from './components/ResearchPillars';
-import { TechStackTable } from './components/TechStackTable';
-import { EngineeringPhilosophy } from './components/EngineeringPhilosophy';
+import { useEffect, useState } from "react"
+import katex from "katex"
+import "katex/dist/katex.min.css"
 
-export const App: React.FC = () => {
-  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
-  const [blueprintGridActive, setBlueprintGridActive] = useState(false);
-  const [selectedBibtexPaper, setSelectedBibtexPaper] = useState<ScientificPaper | null>(null);
-  const [heroViewMode, setHeroViewMode] = useState<'manifold' | 'stream'>('manifold');
-  const [activeSection, setActiveSection] = useState<string>('hero');
+const engines = [
+  {
+    number: "01",
+    title: "Quimera Core",
+    subtitle: "Cybernetic Immune System",
+    description:
+      "Automated mutation testing framework computing discrete Ollivier–Ricci curvature over control-flow graphs to trace failure propagation, paired with synthetic mRNA messaging and kernel telemetry.",
+    stack: ["Rust", "JVM / Python / .NET", "io_uring", "Ollivier–Ricci"],
+    tone: "cyan",
+    metric: "CFG curvature analysis",
+    featured: true,
+  },
+  {
+    number: "02",
+    title: "KineQuet / KineSQL",
+    subtitle: "Distributed Storage Engine",
+    description:
+      "An append-only event sourcing engine running SQLite as an immutable commit log over a custom io_uring VFS with leaderless UDP gossip and Reed–Solomon FEC.",
+    stack: ["C++23", "Rust", "SQLite VFS", "AVX2", "L-CRDTs"],
+    tone: "violet",
+    metric: "Zero-lost commit log",
+    featured: true,
+  },
+  {
+    number: "03",
+    title: "Kineplex",
+    subtitle: "Kinetic Stream Multiplexer",
+    description:
+      "Real-time telemetry and stream multiplexing on 64-byte cache-aligned lock-free ring buffers with diffeomorphism-based time synchronization.",
+    stack: ["Rust", "LMAX Disruptor", "AVX-512", "Zero-Copy"],
+    tone: "green",
+    metric: "0.38 ms jitter",
+  },
+  {
+    number: "04",
+    title: "Synapse Protocol",
+    subtitle: "Topological Routing",
+    description:
+      "High-frequency reconciliation with partition sharding parameterized by Fisher information metrics and game-theoretic equilibria.",
+    stack: ["Rust", "Arrow IPC", "FlatBuffers", "Fisher Metric"],
+    tone: "amber",
+    metric: "Zero-copy transfer",
+  },
+  {
+    number: "05",
+    title: "Ephemeral Kinetic Cells",
+    subtitle: "Transient Execution",
+    description:
+      "Isolated serverless micro-sandboxes with deterministic lineage, backed by Firecracker microVMs and bumpalo arena allocation.",
+    stack: ["Rust", "Firecracker", "Bumpalo Arena"],
+    tone: "violet",
+    metric: "Sub-1 ms boot",
+  },
+  {
+    number: "06",
+    title: "Quimera Labs Anatomy",
+    subtitle: "WebGPU Procedural Engine",
+    description:
+      "Interactive medical visualization and digital histopathology supporting 1,000+ clinical models and 5,000+ slides through direct WebGPU compute pipelines.",
+    stack: ["WebGPU", "WGSL", "WebAssembly", "Three.js"],
+    tone: "rose",
+    metric: "5,000+ digital slides",
+    wide: true,
+  },
+  {
+    number: "07",
+    title: "COBOL-Flow V5",
+    subtitle: "AOT Compilers & bare-sql-engine",
+    description:
+      "Legacy COBOL to OpenAPI 3.0 and executable BDD via Keith Cooper SSA, alongside ahead-of-time in-memory SQL through Project Panama FFM.",
+    stack: ["Java 21+", "Panama FFM", "Keith Cooper SSA", "OpenAPI 3.0"],
+    tone: "blue",
+    metric: "Zero JNI overhead",
+    wide: true,
+  },
+]
 
-  // Command Palette Keyboard Shortcut (Cmd + K / Ctrl + K)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setCommandPaletteOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+const publications = [
+  {
+    field: "cs.DC / cs.PF",
+    venue: "WJAIRR / SSRN · 2026",
+    title:
+      "Decentralized Topological Routing for High-Frequency Data Reconciliation: An Approach via Mechanical Sympathy",
+    authors: "Gemirson dos Santos Silva",
+    abstract:
+      "Design, empirical benchmark, and formal verification of the KineQuet architecture. Deterministic Jump Consistent Hash partitioning and zero-copy Apache Arrow layouts reconcile 200 million transactional records in 11.08 seconds with 161 MB RAM per process.",
+    formula: String.raw`T_{\mathrm{reconcile}}\!\left(2 \times 10^8\right) = 11.08\,\mathrm{s}
+      \qquad \mathrm{RAM} \leq 161\,\mathrm{MB}`,
+  },
+  {
+    field: "q-fin.CP / math.NA",
+    venue: "SSRN Research Monograph · 2026",
+    title:
+      "Arithmetic Gradient Model for Approximating Seasonal/Irregular Cash Flows",
+    authors: "Gemirson dos Santos Silva",
+    abstract:
+      "A generalized mathematical model adapting classical arithmetic gradient formulations to irregular and seasonal multi-period cash-flow dynamics, establishing sub-centile numerical bounds and uniform convergence.",
+    formula: String.raw`P = A\!\left[\frac{(1+i)^n-1}{i(1+i)^n}\right]
+      + \frac{G}{i}\!\left[\frac{(1+i)^n-1}{i(1+i)^n}-\frac{n}{(1+i)^n}\right]`,
+  },
+  {
+    field: "math.DS / physics.soc-ph",
+    venue: "SIAM MMS · Submitted 2026",
+    title:
+      "Urban Population Dynamics via Elastic Carrying Capacity and Saturable Social Friction",
+    authors: "Gemirson dos Santos Silva · João Frederico Meyer",
+    abstract:
+      "A multiscale continuous-discrete framework replacing classical logistic carrying capacity with an elastic formulation coupled to Holling Type II responses and weighted graph-Laplacian diffusion.",
+    formula: String.raw`\frac{\partial u_i}{\partial t}
+      = r_i u_i\!\left(1-\frac{u_i}{K_i(u,t)}\right)
+      - \sum_{j\in\mathcal{N}(i)} L_{ij}\,
+      \frac{\alpha_{ij}u_j}{1+\beta_{ij}\tau_{ij}u_j}`,
+  },
+  {
+    field: "cs.DC / cs.DS",
+    venue: "ACM TOCS Preprint · QL-2026-DC02",
+    title:
+      "Lock-Free Invariant Enforcement and Sub-Millisecond Event Sourcing over io_uring VFS",
+    authors: "Gemirson dos Santos Silva · Quimera Distributed Systems Group",
+    abstract:
+      "Formal verification and empirical benchmarking of an append-only storage engine coupled to Linux io_uring and L-CRDT state primitives, converging under 35% packet loss.",
+    formula: String.raw`\sum_{k=1}^{M}\Delta b_k(s)\equiv 0
+      \qquad\land\qquad
+      \operatorname{rank}\!\left(G_{\mathrm{FEC}}\mathbf{m}_p\right)=k_{\mathrm{sym}}`,
+  },
+  {
+    field: "math.DG / cs.NI",
+    venue: "Differential Geometry & Network Topology · 2026",
+    title:
+      "Synaptic Topological Routing under Riemannian Metric and Fisher Information Invariants",
+    authors: "Gemirson dos Santos Silva · Quimera Cybernetic Research Lab",
+    abstract:
+      "Self-balancing network topologies based on discrete Ollivier–Ricci curvature bounds and Fisher information metric tensors with Pareto-optimal message flow.",
+    formula: String.raw`\kappa(x,y)
+      = 1-\frac{W_1(m_x,m_y)}{d(x,y)}
+      \geq \kappa_0 > 0`,
+  },
+  {
+    field: "q-fin.CP / cs.PF",
+    venue: "SIAM Financial Mathematics · QL-2026-QF04",
+    title:
+      "Sub-Centile Financial Accounting and Deterministic Floating-Point Drift Elimination",
+    authors: "Gemirson dos Santos Silva · Quimera Quantitative Systems Group",
+    abstract:
+      "Axiomatic formalization of continuous financial reconciliation eliminating rounding residuals with scaled arbitrary-precision integers and idempotent event algebras.",
+    formula: String.raw`\lim_{N\to\infty}\sum_{n=1}^{N}
+      \left(\mathcal{Q}(x_n)-\pi_0(x_n)\right)=0
+      \qquad \delta_{\mathrm{drift}}<10^{-18}`,
+  },
+]
 
-  // Active section scroll spy
-  useEffect(() => {
-    const sectionIds = ['ecossistema', 'papers', 'pesquisadores', 'pesquisa', 'stack', 'filosofia'];
-    
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const buffer = 200;
+const pillars = [
+  [
+    "01",
+    "Cybernetic Immune Systems",
+    "Automated fault injection, kernel event interception, and adaptive mutation over JVM bytecode, Python internals, and .NET.",
+  ],
+  [
+    "02",
+    "Distributed Consensus & Storage",
+    "Append-only commit logs, custom SQLite VFS over io_uring, L-CRDTs, UDP gossip, and Reed–Solomon FEC.",
+  ],
+  [
+    "03",
+    "Topological Routing",
+    "Zero-copy Arrow IPC and FlatBuffers, Fisher information sharding, and transient Firecracker micro-runtimes.",
+  ],
+  [
+    "04",
+    "AOT Transpilation",
+    "Mainframe modernization through Keith Cooper SSA and in-memory SQLite execution via Java 21+ Project Panama.",
+  ],
+  [
+    "05",
+    "Procedural Simulation",
+    "Interactive clinical 3D visualization, digital histopathology, and biomechanical simulation with WebGPU and WGSL.",
+  ],
+  [
+    "06",
+    "Bio-Inspired Computing",
+    "Multiscale stochastic modeling, synthetic mRNA signaling, stigmergy, and decentralized swarm coordination.",
+  ],
+]
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i];
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop - buffer;
-          if (scrollY >= top) {
-            setActiveSection(id);
-            return;
-          }
-        }
-      }
-      setActiveSection('hero');
-    };
+const stack = [
+  [
+    "Systems & low-level",
+    "Rust · C++20/23 · Linux Kernel · io_uring · eBPF · AVX2 / AVX-512",
+  ],
+  [
+    "Managed runtimes",
+    "Java 21+ · Panama FFM · Disruptor · Scala · .NET 8/9 · Python internals",
+  ],
+  [
+    "Storage & databases",
+    "In-memory SQLite VFS · DuckDB · PostgreSQL / Citus · Apache Parquet",
+  ],
+  [
+    "IPC & serialization",
+    "Apache Arrow IPC · FlatBuffers · Protocol Buffers · zero-copy shared memory",
+  ],
+  [
+    "Graphics & simulation",
+    "WebGPU · WebAssembly · Three.js · GLSL / WGSL compute shaders",
+  ],
+  [
+    "Infrastructure",
+    "Firecracker microVMs · Docker · LocalStack · bare-metal Linux / RHEL",
+  ],
+]
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+function ArrowIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20">
+      <path d="M4 10h11M11 6l4 4-4 4" />
+    </svg>
+  )
+}
 
-  const handleOpenBibtexById = (paperId: string) => {
-    const paper = papersDatabase.find((p) => p.id === paperId) || papersDatabase[0];
-    setSelectedBibtexPaper(paper);
-  };
+function GitHubIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="fill-icon">
+      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.17-1.11-1.48-1.11-1.48-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.6 9.6 0 0 1 12 6.84a9.5 9.5 0 0 1 2.5.34c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+    </svg>
+  )
+}
+
+function MathFormula({
+  formula,
+  displayMode = true,
+}: {
+  formula: string
+  displayMode?: boolean
+}) {
+  const html = katex.renderToString(formula, {
+    displayMode,
+    throwOnError: false,
+    strict: false,
+    output: "html",
+  })
 
   return (
-    <div className="min-h-screen bg-[#030305] text-[#f9fafb] relative selection:bg-[#00F5D4]/25 selection:text-[#00F5D4]">
-      {/* Dynamic Backgrounds */}
-      <div className="quantum-noise" />
-      <div className={`blueprint-grid ${blueprintGridActive ? 'blueprint-grid-high opacity-100' : 'opacity-40'}`} />
+    <span
+      className={`math-render ${displayMode ? "is-display" : "is-inline"}`}
+      aria-label={formula}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  )
+}
 
-      {/* [00] Enhanced Top Telemetry HUD & Navigation */}
-      <TopNavbar
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        onToggleBlueprintGrid={() => setBlueprintGridActive(!blueprintGridActive)}
-        isBlueprintGridActive={blueprintGridActive}
-        activeSection={activeSection}
+function EngineIcon({ engine }: { engine: string }) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  }
+
+  return (
+    <span className="engine-icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32">
+        {engine === "01" && (
+          <>
+            <path {...common} d="M16 3.5 26 7v7.4c0 6.4-4.2 11.3-10 14.1C10.2 25.7 6 20.8 6 14.4V7l10-3.5Z" />
+            <circle {...common} cx="16" cy="12" r="2.2" />
+            <circle {...common} cx="11.2" cy="18.6" r="1.5" />
+            <circle {...common} cx="20.8" cy="18.6" r="1.5" />
+            <path {...common} d="m14.7 13.8-2.5 3.5m5.1-3.5 2.5 3.5m-7.1 1.3h6.6" />
+          </>
+        )}
+        {engine === "02" && (
+          <>
+            <ellipse {...common} cx="16" cy="7" rx="9.5" ry="3.5" />
+            <path {...common} d="M6.5 7v7c0 1.9 4.3 3.5 9.5 3.5s9.5-1.6 9.5-3.5V7m-19 7v7c0 1.9 4.3 3.5 9.5 3.5s9.5-1.6 9.5-3.5v-7" />
+            <path {...common} d="M11.5 12.2h.1m-.1 7h.1" />
+          </>
+        )}
+        {engine === "03" && (
+          <>
+            <path {...common} d="M3.5 16h4l2.5-7 4.1 14 3.8-18 3.6 11h7" />
+            <path {...common} d="M5 26.5h22M5 5.5h22" opacity=".35" />
+          </>
+        )}
+        {engine === "04" && (
+          <>
+            <circle {...common} cx="16" cy="6" r="2.7" />
+            <circle {...common} cx="7" cy="22.5" r="2.7" />
+            <circle {...common} cx="25" cy="22.5" r="2.7" />
+            <circle {...common} cx="16" cy="17" r="3.2" />
+            <path {...common} d="m14.5 8.4-5.9 11.7m8.9-11.7 5.9 11.7M9.7 22h12.6M16 9v4.8" />
+          </>
+        )}
+        {engine === "05" && (
+          <>
+            <path {...common} d="m16 3.8 10.5 6v12L16 28.2l-10.5-6.4v-12L16 3.8Z" />
+            <path {...common} d="m5.8 10 10.2 6 10.2-6M16 16v12" />
+            <path {...common} d="m11.5 7 10.2 6" opacity=".45" />
+          </>
+        )}
+        {engine === "06" && (
+          <>
+            <path {...common} d="M16 4c-5.8 0-10.5 5-10.5 11.2 0 7.2 5.2 11.9 10.5 13.3 5.3-1.4 10.5-6.1 10.5-13.3C26.5 9 21.8 4 16 4Z" />
+            <path {...common} d="M11 10.5c3 2.2 7 2.2 10 0M10.2 17c3.7-1.8 7.9-1.8 11.6 0M12.5 23c2.3-.8 4.7-.8 7 0" />
+            <path {...common} d="M16 6.5v19" opacity=".5" />
+          </>
+        )}
+        {engine === "07" && (
+          <>
+            <path {...common} d="m11.5 8-7 8 7 8m9-16 7 8-7 8M18.5 5l-5 22" />
+            <path {...common} d="M8 4h16M8 28h16" opacity=".35" />
+          </>
+        )}
+      </svg>
+    </span>
+  )
+}
+
+function RiemannManifold() {
+  return (
+    <svg
+      className="riemann-manifold"
+      viewBox="0 0 620 540"
+      role="img"
+      aria-labelledby="riemann-title riemann-description"
+    >
+      <title id="riemann-title">Riemannian manifold</title>
+      <desc id="riemann-description">
+        A curved mathematical surface represented by intersecting geodesic
+        lines.
+      </desc>
+      <defs>
+        <radialGradient id="manifold-field" cx="50%" cy="48%" r="52%">
+          <stop offset="0" stopColor="#c8f65b" stopOpacity=".12" />
+          <stop offset=".72" stopColor="#c8f65b" stopOpacity=".025" />
+          <stop offset="1" stopColor="#c8f65b" stopOpacity="0" />
+        </radialGradient>
+        <filter id="geodesic-glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <ellipse cx="312" cy="273" rx="286" ry="232" fill="url(#manifold-field)" />
+
+      <g className="manifold-grid manifold-latitudes">
+        <path d="M42 194C128 112 220 116 306 202C393 288 483 314 578 250" />
+        <path d="M35 226C126 147 218 151 305 229C393 308 487 337 588 282" />
+        <path d="M32 260C126 184 216 185 304 257C394 330 489 358 592 315" />
+        <path d="M34 295C124 226 216 222 303 285C395 352 491 376 590 347" />
+        <path d="M43 331C128 270 217 263 304 314C397 369 488 390 580 377" />
+        <path d="M60 367C136 316 222 305 307 344C397 386 480 401 562 403" />
+      </g>
+
+      <g className="manifold-grid manifold-longitudes">
+        <path d="M89 144C140 190 148 248 128 320C114 372 137 407 196 428" />
+        <path d="M148 116C203 174 209 239 181 315C161 369 183 414 239 443" />
+        <path d="M217 105C261 169 263 237 235 311C212 370 231 421 276 453" />
+        <path d="M292 113C317 176 319 241 302 306C286 371 298 423 310 459" />
+        <path d="M368 137C367 191 375 246 368 305C362 367 362 415 346 455" />
+        <path d="M437 172C414 211 426 260 433 315C439 365 418 408 383 442" />
+        <path d="M497 211C457 239 472 281 491 329C508 370 483 401 425 424" />
+        <path d="M545 251C501 267 515 301 542 341C560 368 532 390 473 403" />
+      </g>
+
+      <path
+        className="manifold-boundary"
+        d="M42 194C120 102 230 78 330 119C431 160 483 223 578 250C614 261 603 331 562 403C480 436 394 470 310 459C220 459 129 430 60 367C28 319 18 243 42 194Z"
       />
+      <path
+        className="manifold-geodesic"
+        filter="url(#geodesic-glow)"
+        d="M65 353C151 312 211 235 287 246C370 258 411 354 558 307"
+      />
+      <g className="manifold-points">
+        <circle cx="65" cy="353" r="4" />
+        <circle cx="287" cy="246" r="5" />
+        <circle cx="558" cy="307" r="4" />
+      </g>
+    </svg>
+  )
+}
 
-      {/* Main Content Wrap */}
-      <main className="w-full max-w-[1240px] mx-auto px-6 relative z-10">
-        
-        {/* [01] HERO SECTION: Where Differential Geometry Meets Mechanical Sympathy */}
-        <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center pt-32 pb-20 relative">
-          
-          {/* Quimera Emblem Insignia */}
-          <div className="relative mb-6 group cursor-pointer" title="Quimera Laboratory Insignia">
-            <div className="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-[#00F5D4] via-[#9d4edd] to-[#FFB703] opacity-35 blur-xl group-hover:opacity-75 transition duration-500 animate-pulse-glow" />
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 p-2.5 rounded-2xl bg-[#030305] border border-white/20 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_35px_rgba(0,245,212,0.2)] flex items-center justify-center overflow-hidden">
-              <img 
-                src="/assets/aistudio/quimera_8332871b.svg" 
-                alt="Quimera Laboratory Insignia" 
-                className="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(0,245,212,0.4)] group-hover:scale-105 transition-transform duration-300"
+function Mark() {
+  return (
+    <div className="mark" aria-hidden="true">
+      <span />
+      <span />
+      <span />
+    </div>
+  )
+}
+
+function SectionHeading({
+  index,
+  eyebrow,
+  title,
+  description,
+}: {
+  index: string
+  eyebrow: string
+  title: string
+  description: string
+}) {
+  return (
+    <header className="section-heading">
+      <div className="section-index">{index}</div>
+      <div>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2>{title}</h2>
+        <p className="section-description">{description}</p>
+      </div>
+    </header>
+  )
+}
+
+export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [paperFilter, setPaperFilter] = useState("all")
+  const [copied, setCopied] = useState<string | null>(null)
+
+  useEffect(() => {
+    const close = () => setMenuOpen(false)
+    window.addEventListener("resize", close)
+    return () => window.removeEventListener("resize", close)
+  }, [])
+
+  const fields = [
+    "all",
+    "cs.DC / cs.PF",
+    "q-fin.CP / math.NA",
+    "math.DS / physics.soc-ph",
+    "math.DG / cs.NI",
+  ]
+  const visiblePapers =
+    paperFilter === "all"
+      ? publications
+      : publications.filter((paper) => paper.field === paperFilter)
+
+  const copyCitation = async (title: string, authors: string) => {
+    await navigator.clipboard?.writeText(
+      `${authors}. “${title}.” Quimera Laboratory, 2026.`,
+    )
+    setCopied(title)
+    window.setTimeout(() => setCopied(null), 1800)
+  }
+
+  return (
+    <div className="site-shell">
+      <nav className="topbar" aria-label="Primary navigation">
+        <a className="brand" href="#top" aria-label="Quimera Laboratory home">
+          <Mark />
+          <span className="brand-copy">
+            <strong>QUIMERA</strong>
+            <small>LABORATORY</small>
+          </span>
+        </a>
+        <div className={`nav-links ${menuOpen ? "is-open" : ""}`}>
+          <a href="#engines">Engines</a>
+          <a href="#research">Research</a>
+          <a href="#publications">Publications</a>
+          <a href="#people">People</a>
+          <a href="#architecture">Architecture</a>
+        </div>
+        <div className="nav-actions">
+          <span className="status">
+            <i /> Systems online
+          </span>
+          <a
+            className="github-link"
+            href="https://github.com/Quimera-Laboratory"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GitHubIcon />
+            <span>GitHub</span>
+          </a>
+          <button
+            className="menu-button"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+            aria-expanded={menuOpen}
+          >
+            <span />
+            <span />
+          </button>
+        </div>
+      </nav>
+
+      <main id="top">
+        <section className="hero">
+          <div className="hero-glow" />
+          <div className="hero-grid" />
+          <div className="hero-copy">
+            <p className="eyebrow hero-eyebrow">
+              <span /> Applied mathematics & systems R&amp;D
+            </p>
+            <h1>
+              Where differential geometry meets <em>mechanical sympathy.</em>
+            </h1>
+            <p className="hero-intro">
+              We design deterministic consensus engines, topological routing
+              primitives, formal compilers, and high-throughput systems at the
+              intersection of rigorous mathematics and low-level engineering.
+            </p>
+            <div className="hero-actions">
+              <a className="button primary" href="#engines">
+                Explore the engines <ArrowIcon />
+              </a>
+              <a className="button secondary" href="#publications">
+                Read our publications
+              </a>
+            </div>
+          </div>
+
+          <div className="manifold-visual">
+            <RiemannManifold />
+            <div className="manifold-caption" aria-hidden="true">
+              <span>Riemannian manifold</span>
+              <i />
+              <MathFormula
+                formula={String.raw`\kappa(x,y)\geq\kappa_0`}
+                displayMode={false}
               />
             </div>
           </div>
 
-          {/* Eyebrow Tag */}
-          <div className="inline-flex items-center gap-2 font-code text-xs text-[#00F5D4] bg-[#00F5D4]/10 border border-[#00F5D4]/25 px-4 py-1.5 rounded-full mb-6 shadow-[0_0_25px_rgba(0,245,212,0.12)]">
-            <span className="w-2 h-2 rounded-full bg-[#00F5D4] shadow-[0_0_8px_#00F5D4]" />
-            <span>[ QUIMERA LABORATORY // APPLIED MATH & SYSTEMS R&D ]</span>
-          </div>
-
-          {/* Master Headline */}
-          <h1 className="w-full max-w-[1100px] text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 font-display bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent">
-            Where Differential Geometry Meets{' '}
-            <span className="bg-gradient-to-r from-[#00F5D4] via-[#9d4edd] to-[#FFB703] bg-clip-text text-transparent">
-              Mechanical Sympathy.
-            </span>
-          </h1>
-
-          {/* Sub-headline */}
-          <p className="max-w-[820px] text-base sm:text-lg text-gray-300 font-normal leading-relaxed mb-8">
-            An applied research and systems engineering laboratory operating at the intersection of discrete differential geometry, mechanical sympathy, and high-throughput computing. We engineer deterministic consensus engines over <code className="text-[#00F5D4] font-code">io_uring</code>, topological routing primitives, and formal compilers.
-          </p>
-
-          {/* Tabular Monospace Instant Metrics Bar */}
-          <div className="w-full max-w-[1080px] p-3.5 sm:p-4 rounded-xl bg-[#070912]/80 border border-white/10 backdrop-blur-md mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-code text-xs">
-            <div className="flex flex-col items-center sm:items-start p-2 rounded bg-black/40 border border-white/5">
-              <span className="text-gray-400 text-[10px]">IPC SERIALIZATION</span>
-              <span className="text-[#00F5D4] font-semibold">0-Copy (Arrow/FlatBuffers)</span>
+          <div className="metrics" aria-label="Core system metrics">
+            <div>
+              <small>IPC serialization</small>
+              <strong>Zero-copy</strong>
+              <span>Arrow / FlatBuffers</span>
             </div>
-            <div className="flex flex-col items-center sm:items-start p-2 rounded bg-black/40 border border-white/5">
-              <span className="text-gray-400 text-[10px]">I/O ENGINE</span>
-              <span className="text-emerald-400 font-semibold">Linux io_uring + eBPF</span>
+            <div>
+              <small>I/O engine</small>
+              <strong>Kernel-native</strong>
+              <span>io_uring + eBPF</span>
             </div>
-            <div className="flex flex-col items-center sm:items-start p-2 rounded bg-black/40 border border-white/5">
-              <span className="text-gray-400 text-[10px]">VECTORIZATION</span>
-              <span className="text-[#9d4edd] font-semibold">AVX2 / AVX-512 SIMD</span>
+            <div>
+              <small>Vectorization</small>
+              <strong>512-bit</strong>
+              <span>AVX2 / AVX-512</span>
             </div>
-            <div className="flex flex-col items-center sm:items-start p-2 rounded bg-black/40 border border-white/5">
-              <span className="text-gray-400 text-[10px]">ROUNDING DRIFT</span>
-              <span className="text-[#FFB703] font-semibold">0.0000 (Sub-centile Invariant)</span>
+            <div>
+              <small>Rounding drift</small>
+              <strong>0.0000</strong>
+              <span>Sub-centile invariant</span>
             </div>
-          </div>
-
-          {/* Hero Action Buttons */}
-          <div className="flex items-center gap-4 flex-wrap justify-center mb-6">
-            <a
-              href="#ecossistema"
-              className="bg-white text-gray-950 font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl inline-flex items-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-[0_4px_25px_rgba(255,255,255,0.25)] hover:shadow-[0_8px_35px_rgba(255,255,255,0.4)]"
-            >
-              <span>Explore Core Engines</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-            </a>
-
-            <a
-              href="#papers"
-              className="bg-gray-900/80 text-white font-semibold text-sm sm:text-base px-7 py-3.5 rounded-xl inline-flex items-center gap-2.5 border border-white/10 backdrop-blur-md transition-all duration-200 hover:bg-gray-800 hover:border-white/25 hover:-translate-y-0.5"
-            >
-              <BookOpen className="w-4 h-4 text-[#00F5D4]" />
-              <span>Publications & Monographs</span>
-            </a>
-          </div>
-
-          {/* Interactive Hero Canvas: Topological Manifold or Kinetic Stream */}
-          <div className="w-full">
-            <div className="flex items-center justify-between mb-2 px-2 text-xs font-code text-gray-400">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#00F5D4]" />
-                INTERACTIVE TOPOLOGY SIMULATOR (60 FPS)
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setHeroViewMode('manifold')}
-                  className={`px-3 py-1 rounded-md transition-all border cursor-pointer ${
-                    heroViewMode === 'manifold'
-                      ? 'bg-[#00F5D4]/20 text-[#00F5D4] border-[#00F5D4]/40 font-semibold'
-                      : 'bg-white/5 text-gray-400 border-white/5 hover:text-white'
-                  }`}
-                >
-                  Riemannian 3D Manifold
-                </button>
-                <button
-                  onClick={() => setHeroViewMode('stream')}
-                  className={`px-3 py-1 rounded-md transition-all border cursor-pointer ${
-                    heroViewMode === 'stream'
-                      ? 'bg-sky-500/20 text-sky-400 border-sky-500/40 font-semibold'
-                      : 'bg-white/5 text-gray-400 border-white/5 hover:text-white'
-                  }`}
-                >
-                  kineplex Stream Waveform
-                </button>
-              </div>
-            </div>
-
-            {heroViewMode === 'manifold' ? (
-              <TopologicalManifoldCanvas />
-            ) : (
-              <KineticCanvas />
-            )}
           </div>
         </section>
 
-        {/* [02] INTERACTIVE BENTO GRID: CORE ECOSYSTEM ENGINES */}
-        <section id="ecossistema" className="py-24 border-t border-white/5">
-          <div className="mb-14">
-            <div className="inline-flex items-center gap-2 font-code text-xs text-[#00F5D4] bg-[#00F5D4]/10 border border-[#00F5D4]/20 px-3 py-1 rounded-md mb-4">
-              <span>01. CORE ECOSYSTEM ENGINES</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
-              Core Ecosystem Engines
+        <section className="mission-section" id="mission">
+          <div className="mission-label">
+            <span>00</span>
+            <p>Institutional mission</p>
+          </div>
+          <div className="mission-statement">
+            <h2>
+              Mathematics is our
+              <em> engineering language.</em>
             </h2>
-            <p className="text-gray-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-              From discrete curvature-based mutation testing and 64-byte cache-aligned multiplexers to zero-copy network routing and AOT transpilation.
-            </p>
-          </div>
-
-          <EcosystemEnginesGrid />
-        </section>
-
-        {/* [03] SEÇÃO ESPECIAL: PUBLICATIONS, PREPRINTS & MATHEMATICAL MONOGRAPHS */}
-        <PublicationsSection onSelectBibtex={(paper) => setSelectedBibtexPaper(paper)} />
-
-        {/* [04] RESEARCHERS & SCIENTIFIC FACULTY */}
-        <ResearchersSection onOpenBibtexForPaper={handleOpenBibtexById} />
-
-        {/* [05] LINHAS DE PESQUISA E PILARES TECNOLÓGICOS */}
-        <section id="pesquisa" className="py-24 border-t border-white/5">
-          <div className="mb-12">
-            <div className="inline-flex items-center gap-2 font-code text-xs text-[#9d4edd] bg-[#9d4edd]/10 border border-[#9d4edd]/25 px-3 py-1 rounded-md mb-4">
-              <span>04. RESEARCH AXIS & THEOREMS</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
-              Research Divisions & Foundational Pillars
-            </h2>
-            <p className="text-gray-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Axiomatic formalization of autonomous systems, sub-centile balance invariants, multiscale population dynamics, and zero-cost runtime abstractions.
-            </p>
-          </div>
-
-          <ResearchPillars />
-        </section>
-
-        {/* [06] SYSTEMS ARCHITECTURE & RUNTIME MATRIX */}
-        <section id="stack" className="py-24 border-t border-white/5">
-          <div className="mb-12">
-            <div className="inline-flex items-center gap-2 font-code text-xs text-[#FFB703] bg-[#FFB703]/10 border border-[#FFB703]/25 px-3 py-1 rounded-md mb-4">
-              <span>05. LOW-LEVEL SYSTEMS & RUNTIMES MATRIX</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
-              Systems Architecture & Runtime Matrix
-            </h2>
-            <p className="text-gray-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Low-level primitives in Rust, C++23, io_uring, eBPF, and AVX-512 interfaced with modern managed runtimes including Java 21+ Project Panama, DuckDB, WebGPU, and Firecracker microVMs.
-            </p>
-          </div>
-
-          <TechStackTable />
-        </section>
-
-        {/* [07] ENGINEERING PHILOSOPHY */}
-        <section id="filosofia" className="py-24 border-t border-white/5">
-          <div className="mb-12">
-            <div className="inline-flex items-center gap-2 font-code text-xs text-sky-400 bg-sky-400/10 border border-sky-400/25 px-3 py-1 rounded-md mb-4">
-              <span>06. THREE INVIOLABLE PRINCIPLES</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-white font-display">
-              Engineering Philosophy & Axioms
-            </h2>
-            <p className="text-gray-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Core mathematical and computational principles governing state replication, hardware utilization, and deterministic execution.
-            </p>
-          </div>
-
-          <EngineeringPhilosophy />
-        </section>
-
-        {/* OPEN RESEARCH CTA SECTION */}
-        <section className="pt-16 pb-28 text-center">
-          <div className="relative rounded-3xl p-10 sm:p-20 overflow-hidden border border-[#00F5D4]/30 bg-[radial-gradient(circle_at_50%_0%,rgba(0,245,212,0.15)_0%,rgba(10,13,24,0.85)_75%)] shadow-[0_30px_90px_-20px_rgba(0,0,0,0.9)]">
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#00F5D4]/15 blur-3xl pointer-events-none rounded-full" />
-
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-1.5 text-xs font-code text-[#00F5D4] bg-[#00F5D4]/10 px-3 py-1 rounded-full mb-6 border border-[#00F5D4]/20">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>CYBERNETIC R&D // OPEN INITIATIVE</span>
-              </div>
-
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white mb-5 font-display">
-                Open Research & Applied Computing
-              </h2>
-
-              <p className="max-w-[640px] mx-auto text-base sm:text-lg text-gray-300 mb-10 leading-relaxed font-sans">
-                Review research monographs in SIAM and arXiv, contribute to open-source low-latency engines in Rust and C++, or run a topological relay node.
+            <div className="mission-copy">
+              <p>
+                Quimera Laboratory exists to use mathematics to solve software
+                engineering problems. We approach every branch of mathematics
+                as a practical instrument for designing systems that are more
+                correct, efficient, predictable, and resilient.
               </p>
-
-              <div className="flex items-center gap-4 flex-wrap justify-center">
-                <a
-                  href="https://github.com/Quimera-Laboratory"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-gray-950 font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl inline-flex items-center gap-3 transition-all duration-200 hover:-translate-y-0.5 shadow-[0_4px_25px_rgba(255,255,255,0.25)] hover:shadow-[0_8px_35px_rgba(255,255,255,0.4)]"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                    />
-                  </svg>
-                  <span>View GitHub Organization</span>
-                </a>
-
-                <button
-                  onClick={() => setCommandPaletteOpen(true)}
-                  className="bg-black/60 text-white font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl inline-flex items-center gap-2.5 border border-white/15 backdrop-blur-md transition-all duration-200 hover:bg-white/10 hover:border-white/30 cursor-pointer"
-                >
-                  <Search className="w-4 h-4 text-[#00F5D4]" />
-                  <span>Open Command Palette (⌘K)</span>
-                </button>
-              </div>
+              <p>
+                From abstract structures to numerical methods, we translate
+                mathematical ideas into algorithms, runtime architectures,
+                formal invariants, and measurable software behavior. Theory is
+                not separate from engineering here—it is how engineering
+                decisions are made.
+              </p>
             </div>
           </div>
+          <div className="math-spectrum" aria-label="Mathematical disciplines">
+            {[
+              ["∇", "Geometry & Topology"],
+              ["∑", "Analysis & Differential Equations"],
+              ["ℙ", "Probability & Statistics"],
+              ["⊢", "Logic & Foundations"],
+              ["ℤ", "Algebra & Number Theory"],
+              ["⌘", "Combinatorics & Discrete Mathematics"],
+              ["arg min", "Optimization & Operations Research"],
+              ["∂/∂t", "Dynamical Systems & Information Theory"],
+            ].map(([symbol, discipline]) => (
+              <div className="math-discipline" key={discipline}>
+                <span>{symbol}</span>
+                <p>{discipline}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mission-principle">
+            <span>MATHEMATICAL MODEL</span>
+            <i />
+            <span>SOFTWARE ARCHITECTURE</span>
+            <i />
+            <span>EMPIRICAL VALIDATION</span>
+          </div>
+        </section>
+
+        <section className="content-section" id="engines">
+          <SectionHeading
+            index="01"
+            eyebrow="Core ecosystem"
+            title="Built close to the metal."
+            description="Seven focused engines spanning distributed storage, kinetic streaming, topological networking, procedural simulation, and formal compilation."
+          />
+          <div className="engine-grid">
+            {engines.map((engine) => (
+              <article
+                className={`engine-card tone-${engine.tone} ${
+                  engine.featured ? "featured" : ""
+                } ${engine.wide ? "wide" : ""}`}
+                key={engine.number}
+              >
+                <div className="card-topline">
+                  <span>ENGINE / {engine.number}</span>
+                  <i />
+                </div>
+                <div>
+                  <EngineIcon engine={engine.number} />
+                  <p className="card-kicker">{engine.subtitle}</p>
+                  <h3>{engine.title}</h3>
+                  <p>{engine.description}</p>
+                </div>
+                <div>
+                  <div className="stack-list">
+                    {engine.stack.map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </div>
+                  <footer>
+                    <span>{engine.metric}</span>
+                    <ArrowIcon />
+                  </footer>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="content-section" id="research">
+          <SectionHeading
+            index="02"
+            eyebrow="Research divisions"
+            title="Six pillars. One research continuum."
+            description="From foundational mathematical models to hardware-aware implementations, each division connects formal proof with measurable systems behavior."
+          />
+          <div className="pillar-grid">
+            {pillars.map(([number, title, description]) => (
+              <article className="pillar-card" key={number}>
+                <span className="pillar-number">{number}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="content-section publications-section"
+          id="publications"
+        >
+          <SectionHeading
+            index="03"
+            eyebrow="Publications & preprints"
+            title="Theory, tested in practice."
+            description="Peer-reviewed papers, technical monographs, and formal proofs in applied mathematics, distributed computing, and quantitative systems."
+          />
+          <div className="filter-row" aria-label="Filter publications">
+            {fields.map((field) => (
+              <button
+                className={paperFilter === field ? "active" : ""}
+                onClick={() => setPaperFilter(field)}
+                key={field}
+              >
+                {field === "all" ? "All fields" : field}
+              </button>
+            ))}
+          </div>
+          <div className="publication-list">
+            {visiblePapers.map((paper, index) => (
+              <article className="paper-card" key={paper.title}>
+                <div className="paper-number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div className="paper-content">
+                  <div className="paper-meta">
+                    <span>{paper.field}</span>
+                    <span>{paper.venue}</span>
+                  </div>
+                  <h3>{paper.title}</h3>
+                  <p className="authors">{paper.authors}</p>
+                  <p className="abstract">{paper.abstract}</p>
+                  <div className="formula equation-card">
+                    <div className="equation-heading">
+                      <small>Governing invariant</small>
+                      <span>EQ. {String(index + 1).padStart(2, "0")}</span>
+                    </div>
+                    <MathFormula formula={paper.formula} />
+                  </div>
+                </div>
+                <button
+                  className="copy-button"
+                  onClick={() => copyCitation(paper.title, paper.authors)}
+                >
+                  {copied === paper.title ? "Copied" : "Copy citation"}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="content-section" id="people">
+          <SectionHeading
+            index="04"
+            eyebrow="Scientific faculty"
+            title="Researchers & working groups."
+            description="Principal investigators and specialized engineering collectives directing the laboratory’s research program."
+          />
+          <div className="people-grid">
+            <article className="person-card lead">
+              <div className="person-monogram">GS</div>
+              <div className="person-heading">
+                <span>Principal investigator</span>
+                <h3>Gemirson dos Santos Silva</h3>
+                <p>Chief Systems Architect · Quimera Laboratory</p>
+              </div>
+              <p className="person-bio">
+                Software engineer, solutions architect, and principal researcher
+                investigating mechanical sympathy, discrete differential
+                geometry, kernel-bypass asynchronous I/O, and deterministic
+                high-frequency financial reconciliation.
+              </p>
+              <div className="benchmark">
+                <small>Empirical benchmark</small>
+                <strong>200M records in 11.08s</strong>
+                <span>161 MB RAM · zero locks · deterministic routing</span>
+              </div>
+              <div className="discipline-list">
+                <span>Distributed systems</span>
+                <span>Differential geometry</span>
+                <span>io_uring VFS</span>
+                <span>Financial invariants</span>
+              </div>
+              <footer>
+                <a
+                  href="https://orcid.org/0009-0004-6491-3818"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  ORCID 0009-0004-6491-3818 <ArrowIcon />
+                </a>
+                <a
+                  href="https://scholar.google.com/citations?view_op=search_authors&mauthors=Gemirson+dos+Santos+Silva"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Google Scholar <ArrowIcon />
+                </a>
+              </footer>
+            </article>
+          </div>
+          <div className="collective-grid">
+            {[
+              [
+                "QL–DSG",
+                "Distributed Systems & Storage",
+                "KineQuet · KineSQL · kineplex",
+                "x86_64 AVX-512 · Linux io_uring · NVMe DMA",
+              ],
+              [
+                "QL–CAR",
+                "Cybernetic Architecture & Routing",
+                "Synapse · Cytokine · Kinetic Cells",
+                "Rust no_std · Arrow buffers · KVM · eBPF",
+              ],
+              [
+                "QL–QSE",
+                "Quantitative Systems & Invariants",
+                "Sub-centile Ledger · COBOL-Flow · Panamax",
+                "Java 21+ · DuckDB · IEEE-754 strict guards",
+              ],
+            ].map(([code, name, projects, hardware]) => (
+              <article key={code}>
+                <div>
+                  <span>{code}</span>
+                  <i>Active R&amp;D</i>
+                </div>
+                <h3>{name}</h3>
+                <p>{projects}</p>
+                <small>{hardware}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="content-section architecture-section"
+          id="architecture"
+        >
+          <SectionHeading
+            index="05"
+            eyebrow="Systems architecture"
+            title="A deliberately low-level stack."
+            description="A runtime matrix chosen for predictable latency, explicit memory ownership, deterministic state, and direct hardware access."
+          />
+          <div className="architecture-layout">
+            <div className="stack-table">
+              {stack.map(([layer, technologies], index) => (
+                <div className="stack-row" key={layer}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{layer}</strong>
+                  <p>{technologies}</p>
+                </div>
+              ))}
+            </div>
+            <aside className="axioms">
+              <p className="eyebrow">Three inviolable principles</p>
+              <h3>Engineering philosophy</h3>
+              <div>
+                <span>01</span>
+                <strong>Mechanical sympathy</strong>
+                <p>
+                  Align software with CPU architecture: cache-line padding,
+                  predictable branches, arena allocation, and zero-copy kernel
+                  bypass.
+                </p>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>Mathematical rigor</strong>
+                <p>
+                  Model consistency, partition balance, and failure domains
+                  using differential geometry and real analysis before
+                  implementation.
+                </p>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Immutability & determinism</strong>
+                <p>
+                  Treat historical state and event lineage as immutable facts;
+                  projections remain pure functions of ordered event logs.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section className="cta-section">
+          <div className="cta-mark">
+            <Mark />
+          </div>
+          <p className="eyebrow">Open research initiative</p>
+          <h2>
+            Build systems that make the mathematics <em>visible.</em>
+          </h2>
+          <p>
+            Review our monographs, contribute to low-latency Rust and C++
+            engines, or collaborate on the next formal systems problem.
+          </p>
+          <a
+            className="button primary"
+            href="https://github.com/Quimera-Laboratory"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GitHubIcon /> View GitHub organization <ArrowIcon />
+          </a>
         </section>
       </main>
 
-      {/* [07] Enhanced Institutional Deep-Tech Footer */}
-      <DeepTechFooter
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        onToggleBlueprintGrid={() => setBlueprintGridActive(!blueprintGridActive)}
-        isBlueprintGridActive={blueprintGridActive}
-      />
-
-      {/* Floating Bottom Quick-Action Dock (Menu de Baixo) */}
-      <BottomFloatingBar
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        onToggleBlueprintGrid={() => setBlueprintGridActive(!blueprintGridActive)}
-        isBlueprintGridActive={blueprintGridActive}
-        activeSection={activeSection}
-      />
-
-      {/* Floating Raycast Command Palette Modal */}
-      <CommandPalette
-        isOpen={commandPaletteOpen}
-        onClose={() => setCommandPaletteOpen(false)}
-        onToggleBlueprintGrid={() => setBlueprintGridActive(!blueprintGridActive)}
-        isBlueprintGridActive={blueprintGridActive}
-        onOpenBibtex={handleOpenBibtexById}
-      />
-
-      {/* Floating BibTeX Drawer / Modal */}
-      <BibtexDrawer
-        paper={selectedBibtexPaper}
-        onClose={() => setSelectedBibtexPaper(null)}
-      />
+      <footer className="site-footer">
+        <a className="brand" href="#top">
+          <Mark />
+          <span className="brand-copy">
+            <strong>QUIMERA</strong>
+            <small>LABORATORY</small>
+          </span>
+        </a>
+        <p>Applied mathematics · cybernetic systems · mechanical sympathy</p>
+        <div>
+          <span>São Paulo, Brazil</span>
+          <span>© 2026 Quimera Laboratory</span>
+        </div>
+      </footer>
     </div>
-  );
-};
+  )
+}
