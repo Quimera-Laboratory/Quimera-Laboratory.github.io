@@ -77,9 +77,77 @@ const engines = [
     metric: "Zero JNI overhead",
     wide: true,
   },
+  {
+    number: "08",
+    title: "Quimera Q128 Financial & Spark",
+    subtitle: "Algebraic-Categorical Core & Catalyst UDT",
+    description:
+      "Exact 128-bit decimal arithmetic (QuimeraCategoricalDecimal & QDec128) in the D₁₆ Schreier fiber (q · 10¹⁶ + r) without IEEE 754 binary drift, paired with 64/128-bit fixed-point transcendentals (exp128, expFactor64, log1pFactor64, powFactor64) and 16-byte zero-heap columnar vectors (QDec128ColumnarVector, 5× more compact than BigDecimal) for massive B3/BACEN Spark processing.",
+    stack: [
+      "Scala 2.12",
+      "Apache Spark 3.5",
+      "QDec128 (RDX:RAX)",
+      "Catalyst UDT",
+      "Maven 2.0.0-RELEASE",
+    ],
+    tone: "cyan",
+    metric: "5× compact · Zero-Heap O(1)",
+    wide: true,
+    repoUrl: "https://github.com/Quimera-Laboratory/quimera-q128-financial",
+  },
+  {
+    number: "09",
+    title: "Quimera SAC Pricing & Zero-Rounding",
+    subtitle: "Tier-1 Core Banking & COSIF Accrual Engine",
+    description:
+      "Formal LaTeX-specified daily interest appropriation (ZeroRoundingDailyAccrualEngine) in Java 17 guaranteeing 0.00-cent divergence (ABNT NBR 5891 ℛ₂) against closed-period compounding across 252, 360, and 365 bases with 6 COSIF invariants (I₁…I₆). Validated over 35-year worst-case horizons (N = 420 months / 12,600 days) with 14.15×–363.50× JMH speedup and 811×–1,682× lower GC memory pressure.",
+    stack: [
+      "Java 17",
+      "ZeroRoundingDailyAccrualEngine",
+      "BACEN / COSIF / B3",
+      "ABNT NBR 5891",
+      "OpenJDK JMH 1.37",
+    ],
+    tone: "amber",
+    metric: "0.00 cent error · 363.5× faster",
+    wide: true,
+    repoUrl: "https://github.com/Quimera-Laboratory/quimera-sac-pricing-calculator",
+  },
 ]
 
 const publications = [
+  {
+    field: "q-fin.CP / math.NA",
+    venue: "Quimera Quantitative Monograph · Nov 2026",
+    title:
+      "Accrual Functors, Grothendieck Fibrations, and Schreier 128-Bit Decimal Extensions (QDec128): An O(1) Algebraic Architecture for Massive Indexer Valuation under BACEN and B3 Standards",
+    authors: "Gemirson dos Santos Silva · Quimera Labs",
+    abstract:
+      "Unified O(1) valuation architecture for portfolios of N = 4 × 10⁷ active contracts under BACEN and B3/Cetip 16-decimal step-truncation axioms. Formalizes the financial calendar as a free category Free(G_D) evaluated via division-free Disjoint Sparse Tables (hardware LZCNT), 4th-order nilpotent Taylor jet homomorphisms in ℝ[ε]/(ε⁵) with Kahan–Babuška–Neumaier compensation (ℰ_total < 3.98 × 10⁻¹⁴), Grothendieck fibrations (ℛ_tail ∘ 𝒞_macro ∘ ℒ_head) eliminating 100% of runtime pow() calls, and QDec128—a register-resident 128-bit radix-10¹⁶ central Schreier extension operating in 28–45 ms with zero heap allocation.",
+    formula: String.raw`0 \longrightarrow \mathbb{Z}_{64} \xrightarrow{\;\iota\;} \mathbb{D}_{16}^{(128)} \xrightarrow{\pi_{\mathrm{mod}}} \mathbb{Z}/10^{16}\mathbb{Z} \longrightarrow 0
+      \qquad
+      \Phi_{[a,b)}^{(d^*)} = \mathcal{T}_8\!\left(\mathcal{L}_{\mathrm{head}}^{(d^*)}(a)\cdot\mathcal{C}_{\mathrm{macro}}^{(d^*)}(m_a\!+\!1,m_b)\cdot\mathcal{R}_{\mathrm{tail}}^{(d^*)}(b)\right)`,
+    pdfUrl:
+      "/papers/Accrual-Functors-Temporal-Fibrations-and-Schreier-128-Bit-Decimal-Extensions.pdf",
+    repoUrl:
+      "https://github.com/Quimera-Laboratory/quimera-q128-financial",
+  },
+  {
+    field: "q-fin.CP / cs.PF",
+    venue: "Core Banking & COSIF Specification · Oct 2026",
+    title:
+      "Modelagem Matemática para Eliminação de Erros de Arredondamento na Apropriação Diária de Juros (Zero-Rounding Daily Accrual & SAC Pricing)",
+    authors: "Gemirson dos Santos Silva · Quimera Quantitative Systems Group",
+    abstract:
+      "Formal mathematical specification and Java 17 + Q128 implementation (ZeroRoundingDailyAccrualEngine & BigDecimalSacReferenceEngine) proving the exact equivalence between Dual-State Telescopic Differential and Financial Kahan–Bresenham Sub-Cent Residue Accumulation under ABNT NBR 5891 (ℛ₂) and BACEN/COSIF rules. Enforces 6 formal invariants (I₁…I₆) with 0.00-cent divergence across 252, 360, and 365 bases over worst-case 35-year SAC schedules (N = 420 months / 12,600 days, R$ 1,000,000.00/420), achieving 14.15×–363.50× JMH 1.37 speedup and 811×–1,682× heap allocation reduction.",
+    formula: String.raw`P_0 + \sum_{k=1}^{t}\left(L_k + \Delta E_k\right) = S_t^{\mathrm{cont}} = \mathcal{R}_2\!\left(S_t^*\right),
+      \qquad |R_t| \le 0.005,
+      \qquad \Delta_{\mathrm{COSIF}}\!\left(N=420\right) = 0.00\,\mathrm{cent}`,
+    pdfUrl:
+      "/papers/Modelagem-Matematica-de-Apropriacao-Diaria-de-Juros-sem-Erro-de-Arredondamento.pdf",
+    repoUrl:
+      "https://github.com/Quimera-Laboratory/quimera-sac-pricing-calculator",
+  },
   {
     field: "cs.DC / cs.PF",
     venue: "WJAIRR / SSRN · 2026",
@@ -193,7 +261,11 @@ const stack = [
   ],
   [
     "Managed runtimes",
-    "Java 21+ · Panama FFM · Disruptor · Scala · .NET 8/9 · Python internals",
+    "Java 17/21+ · Scala 2.12 · Apache Spark 3.5 (Catalyst) · Panama FFM · Disruptor · .NET 8/9",
+  ],
+  [
+    "Quantitative & Core Banking",
+    "QDec128 (D₁₆ Schreier Fiber) · ZeroRoundingDailyAccrualEngine · B3 / BACEN COSIF · ABNT NBR 5891",
   ],
   [
     "Storage & databases",
@@ -315,6 +387,20 @@ function EngineIcon({ engine }: { engine: string }) {
             <path {...common} d="M8 4h16M8 28h16" opacity=".35" />
           </>
         )}
+        {engine === "08" && (
+          <>
+            <rect {...common} x="5" y="5" width="22" height="22" rx="2" />
+            <path {...common} d="M10 11h12M10 16h12M10 21h8" />
+            <circle {...common} cx="21.5" cy="21" r="1.5" />
+          </>
+        )}
+        {engine === "09" && (
+          <>
+            <path {...common} d="M5 25.5h22M7.5 21l5-5.5 4 3.5 7.5-9.5" />
+            <circle {...common} cx="24" cy="9.5" r="2" />
+            <path {...common} d="M7.5 9.5h6M7.5 13h4" opacity=".45" />
+          </>
+        )}
       </svg>
     </span>
   )
@@ -434,8 +520,9 @@ export default function App() {
 
   const fields = [
     "all",
-    "cs.DC / cs.PF",
     "q-fin.CP / math.NA",
+    "q-fin.CP / cs.PF",
+    "cs.DC / cs.PF",
     "math.DS / physics.soc-ph",
     "math.DG / cs.NI",
   ]
@@ -613,7 +700,7 @@ export default function App() {
             index="01"
             eyebrow="Core ecosystem"
             title="Built close to the metal."
-            description="Seven focused engines spanning distributed storage, kinetic streaming, topological networking, procedural simulation, and formal compilation."
+            description="Nine focused engines spanning institutional core banking & clearing (Q128 / SAC COSIF), distributed storage, kinetic streaming, topological networking, procedural simulation, and formal compilation."
           />
           <div className="engine-grid">
             {engines.map((engine) => (
@@ -641,7 +728,18 @@ export default function App() {
                   </div>
                   <footer>
                     <span>{engine.metric}</span>
-                    <ArrowIcon />
+                    {engine.repoUrl ? (
+                      <a
+                        className="engine-repo-link"
+                        href={engine.repoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        GitHub Repo <ArrowIcon />
+                      </a>
+                    ) : (
+                      <ArrowIcon />
+                    )}
                   </footer>
                 </div>
               </article>
@@ -712,12 +810,34 @@ export default function App() {
                     <MathFormula formula={paper.formula} />
                   </div>
                 </div>
-                <button
-                  className="copy-button"
-                  onClick={() => copyCitation(paper.title, paper.authors)}
-                >
-                  {copied === paper.title ? "Copied" : "Copy citation"}
-                </button>
+                <div className="paper-actions">
+                  {paper.pdfUrl && (
+                    <a
+                      className="copy-button primary-action"
+                      href={paper.pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Read PDF
+                    </a>
+                  )}
+                  {paper.repoUrl && (
+                    <a
+                      className="copy-button"
+                      href={paper.repoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Repository
+                    </a>
+                  )}
+                  <button
+                    className="copy-button"
+                    onClick={() => copyCitation(paper.title, paper.authors)}
+                  >
+                    {copied === paper.title ? "Copied" : "Copy citation"}
+                  </button>
+                </div>
               </article>
             ))}
           </div>
@@ -790,8 +910,8 @@ export default function App() {
               [
                 "QL–QSE",
                 "Quantitative Systems & Invariants",
-                "Sub-centile Ledger · COBOL-Flow · Panamax",
-                "Java 21+ · DuckDB · IEEE-754 strict guards",
+                "quimera-q128-financial · quimera-sac-pricing-calculator · Sub-centile Ledger · COBOL-Flow",
+                "Scala 2.12 / Spark 3.5 · Java 17/21+ · QDec128 (RDX:RAX) · B3/BACEN COSIF",
               ],
             ].map(([code, name, projects, hardware]) => (
               <article key={code}>
